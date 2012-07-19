@@ -1,0 +1,13 @@
+/*table spacing */
+
+#contentTableHeader .kitid{
+	width:15% !important;
+}
+
+#contentTableHeader .kit_desc{
+	width:55% !important;
+}
+
+#contentTableHeader .loan_length{
+	width:15% !important;
+}

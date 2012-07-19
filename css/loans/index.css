@@ -1,0 +1,35 @@
+/*----------------------------  Main Page Styling  ----------------------------*/
+.kitid{
+		width:10%;
+}
+
+.equipmentid{
+		width:10%
+}
+
+.userid{
+		width:15%
+}
+
+.fname{
+		width:15%;
+}
+
+.issue_date{
+		width:15%;
+}
+
+.due_date{
+		width:15%;
+}
+.return_date{
+		width:15%;
+}
+
+.fine{
+		width:10%;
+}
+
+.filler{
+		width:90%;
+}

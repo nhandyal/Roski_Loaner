@@ -1,0 +1,220 @@
+var validKitID = false;
+
+$(document).ready(function() {
+		$("#kitid").blur(function(){
+				validateKitID();
+		});
+		
+		$("#purchaseDate").datepicker({
+				changeYear: true,
+				changeMonth: true,
+				altFormat: '@',
+				altField: '#purchaseDateUnix'
+		});
+		
+		$("#manufactureDate").datepicker({
+				changeYear: true,
+				changeMonth: true,
+				altFormat: '@',
+				altField: '#manufactureDateUnix'
+		});
+});
+
+function validateKitID(){
+		var id = $("#kitid").val();
+		if(id == ""){
+				$(".pf-error").css("display","none");
+				validKitID = true;
+				return;
+		}
+		else{
+				$.ajax({
+								type: "GET",
+								async: false,
+								url: "functions.php",
+								data: {validate: id},
+								success: function(response){
+										if(response == 0){
+												$(".pf-error").css("display","none");
+												validKitID = true;
+										}
+										else{
+												$(".pf-error").css("display","inline");
+												validKitID = false;
+										}
+								}
+				});
+		}
+}
+
+function submitForm(){
+		validateKitID();
+		
+		if(validKitID == false){
+				alert("Invalid Kit Id");
+				return;
+		}
+			
+		var access_area_ids = new Array();
+		
+		// Make comman seperated list of access areas
+		var aa = $(".access_area:checked");
+		if(aa.length == 0){
+				access_area_ids.push("0");
+		}
+		else{
+				for(i=0; i<aa.length; i++){
+						access_area_ids.push($(aa[i]).val());
+				}
+		}
+		
+		var access_area_str = access_area_ids.join(",");
+		
+		//make an ajax post request.
+		$('#submitWaiting').css({"display" : "inline"});
+		$.post("functions.php?edit=1",
+						{
+						"kitid"       			:   $("#kitid").val(),
+						"equipmentid"				:   $("#equipmentid").val(),
+						"loanlenEQ"					:		$("#loanlenEQ").val(),
+						"model"      				:   $("#model").val(),
+						"cond"       				:   $("#cond").val(),
+						"desc"       				:   $("#desc").val(),
+						"notes"      				:   $("#notes").val(),
+						"equipCatID"				:		$("#equipCatID").val(),
+						"equipSubCatID"			:		$("#equipSubCatID").val(),						
+						"manufacturer"			:		$("#manufacturer").val(),
+						"manufactureDate"		:		$("#manufactureDateUnix").val()/1000,
+						"expectedLifetime"	:		$("#expectedLifetime").val(),
+						"manufSerial"				:		$("#manufSerial").val(),
+						"location"					:		$("#location").val(),
+						"owner"							: 	$("#owner").val(),
+						"purchaseDate"			:		$("#purchaseDateUnix").val()/1000,
+						"purchasePrice"			:		$("#purchasePrice").val(),
+						"ipAddress"					:		$("#ipAddress").val(),
+						"macAddress"				:		$("#macAddress").val(),
+						"hostName"					:		$("#hostName").val(),
+						"connectType"				:		$("#connectType").val(),
+						"warrantyInfo"			:		$("#warrantyInfo").val(),
+						"access_areas"			:		access_area_str
+						},
+						function(response){
+								var jsonResponse = JSON.parse(response);
+								if(jsonResponse.status == 0){
+										$('#submitWaiting').css({"display" : "none"});
+										alert(jsonResponse.message);
+										$(window).scrollTop(0);
+										window.location.reload();
+								}
+								else{
+										$('#submitWaiting').css({"display" : "none"});
+										showError(jsonResponse.message);
+								}
+						}
+		); //end of Ajax Post Request
+}		 //end of binding Submit Button
+
+function getXMLHTTP() { //fuction to return the xml http object
+		var xmlhttp=false;	
+		try{
+				xmlhttp=new XMLHttpRequest();
+		}
+		catch(e)	{		
+				try{			
+						xmlhttp= new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				catch(e){
+						try{
+								xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+						}
+						catch(e1){
+								xmlhttp=false;
+						}
+				}
+		}
+return xmlhttp;
+}
+
+function getSubCat(strURL) {		
+		var req = getXMLHTTP();
+
+		if (req) {
+				req.onreadystatechange = function() {
+						if (req.readyState == 4) {
+								// only if "OK"
+								if (req.status == 200) {	
+										document.getElementById('equipSubCat').innerHTML=req.responseText;						
+								}
+								else{
+										alert("There was a problem while using XMLHTTP:\n" + req.statusText);
+								}
+						}				
+				}			
+		req.open("GET", strURL, true);
+		req.send(null);
+		}
+}
+
+function getNetwork(strURL) {		
+
+		var req = getXMLHTTP();
+		
+		if (req) {
+				req.onreadystatechange = function() {
+						if (req.readyState == 4) {
+								// only if "OK"
+								if (req.status == 200) {	
+										document.getElementById('networkInfo').innerHTML=req.responseText;						
+								}
+								else{
+										alert("There was a problem while using XMLHTTP:\n" + req.statusText);
+								}
+						}				
+				}				
+		req.open("GET", strURL, true);
+		req.send(null);
+		}
+}
+
+
+function showUser(str){
+		if (str==""){
+				document.getElementById("networkInfo").innerHTML="";
+				return;
+		}
+		if (window.XMLHttpRequest){// code for IE7+, Firefox, Chrome, Opera, Safari
+				xmlhttp=new XMLHttpRequest();
+		}
+		else{// code for IE6, IE5
+				xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange=function(){
+				if (xmlhttp.readyState==4 && xmlhttp.status==200){
+						document.getElementById("networkInfo").innerHTML=xmlhttp.responseText;
+				}
+		}
+		xmlhttp.open("GET","networkInfo.php?",true);
+		xmlhttp.send();
+}
+
+function deactivate(id){
+		if(confirm("Are you sure you want to deactivate equipment "+id+"?")){
+				$.get("functions.php",
+						{
+								"deactivate":id
+						},
+						function(response){
+								var jsonResponse = JSON.parse(response);
+								if(jsonResponse.status == 0){
+										alert(jsonResponse.message);
+										window.location = "http://art.usc.edu/loaner/equipments";
+								}
+								else
+										showError(jsonResponse.message);
+						}
+				);
+		}
+		else{
+				return false;
+		}
+}

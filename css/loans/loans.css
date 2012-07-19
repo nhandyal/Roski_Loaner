@@ -1,0 +1,38 @@
+.readonly{
+		border:2px solid !important;
+		border-color:white !important;
+}
+.readonly:focus{
+		border:2px solid !important;
+		border-color:white !important;
+}
+#equipment-checkout-wrapper{
+		width:90%;
+}
+
+.holder{
+		margin-bottom:10px;
+}
+
+#equipment-wrapper{
+		margin-top:20px;
+}
+
+.equipment-input{
+		width:23%;
+		margin-left:1%;
+}
+
+.equipment{
+		float:left;
+		width:24%;
+		margin-left:1%;
+}
+
+.not-scanned{
+		background: rgb(215,81,75);
+}
+
+.scanned{
+		background: rgb(161,214,86);
+}

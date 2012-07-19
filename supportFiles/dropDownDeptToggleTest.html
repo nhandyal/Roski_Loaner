@@ -1,0 +1,48 @@
+<html>
+		<head>
+				<style>
+						#sysadm-dept-toggle{
+								display:inline-block;
+								width:200px;
+						}
+						#sysadm-dept-toggle:hover{
+								cursor:pointer;
+						}
+						.option{
+								height:0px;
+								overflow:hidden;
+						}
+						.option:hover{
+								color:blue;
+						}
+				</style>
+				<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+				<script type="text/javascript">
+						$(document).ready(function(){
+								$('#sysadm-dept-toggle').mouseover(function(){
+										$('.option').stop().animate({height: 20},400,function(){});
+								});
+								
+								$('#sysadm-dept-toggle').mouseout(function(){
+										$('.option').stop().animate({height: 0},400,function(){});
+								});
+						});
+						
+						function testfunction(obj){
+								console.log(obj);
+						}
+				</script>
+		</head>
+		<body>
+				<div id="sysadm-dept-toggle">
+						<div id="current-visible">
+								Intermedia
+						</div>
+						<div id="select-options">
+								<div class="option" onclick="testfunction(this)">IT</div>
+								<div class="option" onclick="testfunction(this)">Photo</div>
+								<div class="option" onclick="testfunction(this)">Advanced Photo</div>
+						</div>
+				</div>
+		</body>
+</html>

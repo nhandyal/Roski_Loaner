@@ -1,0 +1,24 @@
+/*table spacing */
+#contentTableHeader .equipmentid{
+	width:10% !important;
+}
+
+#contentTableHeader .kitid{
+	width:10% !important;
+}
+
+#contentTableHeader .model{
+	width:30% !important;
+}
+
+#contentTableHeader .equipCatName{
+	width:20% !important;
+}
+
+#contentTableHeader .locationName{
+		width:20% !important;
+}
+
+#contentTableHeader .filler{
+	width:10% !important;
+}

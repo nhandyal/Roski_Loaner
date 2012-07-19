@@ -1,0 +1,574 @@
+/*
+* @Project: Loaner Application for Roski School of Fine Arts, University of Southern California
+* @Author:  Ashit Vora (http://scf.usc.edu/~ashitkvo/)
+* @ModifiedBy: May 2011 by André S. Kelly (andrekel@usc.edu)
+* @ModifiedBy: February 2012 by Nikhil Handyal (handyal@usc.edu)
+*/
+*{
+		font-family: "Lucida Grande", Arial, Verdana;
+		font-size:12px;
+		outline:none;
+		word-wrap:break-word;
+}
+
+img{
+	vertical-align:middle;
+	margin:1px;
+}
+
+h1{
+	font-size:28px;
+}
+
+h2{
+	font-size:20px;
+	font-weight:bold;
+	font-family:Georgia, Heveltica, Arial;
+	margin:5px;
+}
+
+h3{
+	font-size:18px;
+	font-weight:bold;
+}
+
+strong{
+	font-weight:bold;
+}
+
+input, textarea{
+    padding:2px;
+}
+
+input[type=checkbox]{
+	margin-right:5px;
+	vertical-align:middle;
+}
+
+td{
+	padding:3px 10px 5px 3px;
+	vertical-align:top;	
+	border-bottom: 1px solid #CCC;
+}
+
+table{
+	margin:10px 0px 0px 0px;
+	width:100%;
+}
+
+label{
+    font-size:13px;
+    text-transform:uppercase;
+    color:#222;
+    padding:5px;
+		vertical-align: top;
+}
+
+a{
+	color:#39f;
+}
+
+.error{
+	display:none;
+	margin:2px 0px 2px 0px;
+	padding:5px;
+	font-size:15px;
+	font-weight:bold;
+	border:#f00 thin solid;
+	color:#000;
+	overflow: hidden;
+	z-index: 999;
+	width: 100%;
+	text-align: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: #E25255;
+	min-height: 25px;
+	opacity: .8;
+}
+
+.not_scanned{
+	background-color:#f96;
+}
+
+.scanned{
+	background-color:#ff9;
+}
+
+.required {
+	color: red;
+}
+
+input:focus, textarea:focus {
+	background-color: #FF9;
+	border: 1px solid #933;
+}
+
+#overlay-win{
+	position:absolute;
+	background-color:#000;
+	z-index:2;
+	top:0;
+	left:0;
+	display:none;
+	width:100%;
+	height:100%;
+	opacity:0.75;
+	filter:alpha(opacity=75); /* IE's opacity*/
+}
+
+.hint{
+	font-size:11px;
+	font-style:italic;
+	margin-left:7px;
+}
+
+/*
+ * Use 1000px layout. Centeralize the content if the screen size is larger
+ */ 
+#page{
+	width:90%;
+	margin:auto;
+}
+
+/*
+ * -------------------------------------------------------------------------------------------Login Box Begin
+ */
+#login{
+	margin:auto;
+	border:#f7f7f7 thick solid;
+	width:300px;
+	padding:10px 20px 10px 20px;
+	background-color:#f7f7f7;
+}
+
+#login *{
+	padding:5px;
+}
+
+#login a{
+	font-size:12px;
+}
+/*
+* -------------------------------------------------------------------------------------------Login Box End
+*/
+
+
+/*
+* -------------------------------------------------------------------------------------------Forgot Password Box Begin
+*/
+#forgot_passowrd{
+	margin:auto;
+	border:#f7f7f7 thick solid;
+	width:330px;
+	padding:10px 20px 10px 20px;
+	background-color:#f7f7f7;
+}
+
+#forgot_passowrd *{
+	padding:5px;
+}
+
+#forgot_passowrd a{
+	font-size:12px;
+}
+/*
+* -------------------------------------------------------------------------------------------Forgot Password Box End
+*/
+
+
+
+/*
+* -------------------------------------------------------------------------------------------Header Begin
+* Total Height: 50px
+*/
+
+#header{
+	height:50px;
+	margin-top:30px;
+	padding:10px 0px 10px 0px;
+	border-bottom:#2e2e2e solid thick;
+}
+
+#deptHeader{
+	height: 30px;
+	padding-bottom: 10px;
+}
+
+#menubar a{
+	text-decoration:none;
+	margin:3px;
+	padding:3px;
+}
+
+#menubar ul{
+	list-style:none;
+}
+
+#menubar li{
+	display:inline;
+}
+
+#menubar a:hover{
+	text-decoration:underline;
+}
+
+#menubar{
+	float:left;
+}
+
+#logout{
+	float:right;
+}
+
+#logout a{
+	text-decoration:none;
+}
+
+#logout a:hover{
+	text-decoration: underline;	
+}
+
+/*
+* -------------------------------------------------------------------------------------------Header End
+*/
+
+
+
+/*
+* -------------------------------------------------------------------------------------------Footer Begin
+* Total Height: 30px;
+*/
+#footer{
+	height:20px;
+	padding:5px 0px 5px 0px;
+	text-align:center;
+	font-size:10px;
+	border-top:#2e2e2e solid thick;
+}
+/*
+* -------------------------------------------------------------------------------------------Footer End
+*/
+
+ 
+ 
+/*
+* -------------------------------------------------------------------------------------------Main Begin
+*/
+#main{
+	padding:10px 0px 10px 0px;
+}
+/*
+* -------------------------------------------------------------------------------------------Main End
+*/
+
+/*
+* -------------------------------------------------------------------------------------------Sidebar Begin
+* Total Width: 160px;
+*/
+#sidebar{
+	width:15%;
+	margin:10px;
+	float:left;
+}
+
+#sidebar ul{
+	list-style:none;
+}
+
+#sidebar li{
+	padding:5px 10px 10px 5px;
+}
+
+#sidebar img{
+	margin-right:3px;
+}
+/*
+* -------------------------------------------------------------------------------------------Sidebar End
+*/
+
+
+
+/*
+* ------------------------------------------------------------------------------------------- Content Table Begin
+* Min Width:800px;
+*/
+
+#content{
+	min-width:80%;
+	padding:10px;
+	float:left;
+}
+
+#contentTableHeader{
+		background:rgb(60,60,60);
+}
+
+#contentTableHeader:hover{
+    cursor:pointer;
+}
+
+#content td{
+	padding:5px;
+	word-wrap:break-word;
+}
+
+.info_heading{
+	background-color:#222;
+	color:#f7f7f7;
+	text-transform:uppercase;
+	padding:5px;
+	margin:5px;
+	cursor:pointer;
+}
+
+#list tbody tr:hover{
+	background-color:#ff9;
+}
+
+/*content table header styling */
+
+#contentTableWrapper #list #contentTableHeader td{
+	background: #2E2E2E;
+	color: #FFFFFF;
+	font-weight:bold;
+	font-size:14px;
+	margin:0px; 
+}
+
+/*--------------------------------------------- paging overrides ----------------------------------------*/
+
+#pagingBarTop:hover, #paginBarBottom:hover {
+	background:transparent !important;
+	text-decoration:none !important;
+}
+
+/* hide total count on the top paging bar */
+#pagingBarTop #total_count{
+	display:none;
+}
+
+#pagingBarTop, #pagingBarBottom{
+	border-bottom: none !important;
+	background:transparent !important;
+}
+
+
+/*paging menu styling */
+
+.paging { padding:10px 0px 0px 0px; text-align:center; font-size:13px;}
+.paging.display{text-align:right;}
+.paging a, .paging span {padding:2px 8px 2px 8px;}
+.paging span {font-weight:bold; color:#000; font-size:13px; }
+.paging a {color:#000; text-decoration:none; border:1px solid #dddddd;}
+.paging a:hover { text-decoration:none; background-color:#6C6C6C !important; color:#fff; border-color:#000;}
+.paging span.prn { font-size:13px; font-weight:normal; color:#aaa; }
+.paging a.prn { border:2px solid #dddddd;}
+.paging a.prn:hover { border-color:#000;}
+.paging p#total_count{color:#aaa; font-size:12px; padding-top:8px; padding-left:18px;}
+.paging p#total_display{color:#aaa; font-size:12px; padding-top:10px;}
+
+/*
+* ------------------------------------------------------------------------------------------- Content Table End
+*/
+
+/*
+* ------------------------------------------------------------------------------------------- Content Search Begin
+*/
+
+#contentSearch{
+	background:#F3F3F3;
+}
+
+#contentSearch{
+	padding:5px;
+}
+
+#contentSearchTable{
+	margin:0px !important;
+}
+
+#contentSearchTable td{
+	border-bottom:none !important;
+}
+
+/*
+* ------------------------------------------------------------------------------------------- Content Search End
+*/
+
+.clear{
+		clear:both;
+}
+ 
+/* Create New User */
+
+tbody{
+	font-size:12px;
+}
+
+#user_type_selection li{
+	display:inline;
+	background: #f3f3f3;
+	padding:5px;
+}
+
+/*-------------------------------------------------------Forms---------------------------------*/
+
+form.createForm {
+	width: 450 px;
+}
+
+
+.createForm:after {
+	content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;
+}
+.createForm .pf-clearing { /* For clearing BRs... */
+	clear: both;
+	height: 1px;
+}
+.createForm fieldset {
+	padding: 5.6px 10px 12px;
+	border: 1px solid #2e2e2e;
+	overflow: visible; /* Opera 8 won't enclose floated divs without this. */
+}
+.createForm fieldset legend, .createForm .pf-heading h1 {
+	font-size: 1.2em;
+	font-weight: bold;
+	background: #2e2e2e;
+}
+.createForm legend {
+	padding: 5px;
+	background: #333;
+	width: 80%;
+	color: #FFF;
+	margin-bottom: 5px;
+}
+
+.cf-links {
+	text-align: right;
+	float: right;
+	width: 20%;
+
+}
+div.cf-links  {
+	float: right;
+}
+
+.cf-links ul {
+	list-style: none;
+}
+
+.cf-links li {
+	display: inline;
+}
+
+div.cf-links a{
+	text-decoration: none;
+	color: #FFF;
+	font-size: 10px;
+}
+
+div.cf-links a:hover {
+	text-decoration: underline;
+	color: #900;
+	font-size: 10px;
+}
+
+.createForm fieldset.pf-group {
+	display: block;
+	clear: left;
+	margin-bottom: 15px;
+}
+
+.createForm div.pf-sidebox {
+	float: right;
+	width:200px;
+	border:1px solid #999;
+	padding: 5px;
+	margin: 5px;
+}
+
+.createForm div.pf-element {
+	float: left;
+	clear: left;
+	padding-bottom: 15px;
+	text-transform: none;
+	font-variant: normal;
+
+	
+}
+.createForm div.pf-heading, .createForm div.pf-element.pf-full-width {
+	width: 100%;
+}
+.createForm div.pf-heading {
+	border-bottom: 1px solid #CCC;
+	padding: 5px;
+	margin-bottom: 10px;
+	background: #333;
+	color: #FFF;
+	font-weight: bold;
+}
+.createForm div.pf-heading h1 {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.createForm div.pf-heading p {
+	clear: left;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.createForm div.pf-element .pf-label, .createForm div.pf-element .pf-note {
+	width: 210px; /* Width of labels. */
+	float: left;
+	font-variant: normal;
+}
+.createForm div.pf-element .pf-note {
+	margin-top: .5em;
+	clear: left;
+	font-size: 70%;
+	color: #555;
+}
+.createForm div.pf-element .pf-group{
+	 margin-left: 220px; /* Same as width of labels. */
+}
+div.pf-group {
+	padding: 0;
+	margin: 0;
+	margin-left: 220px;
+}
+span.pf-group {
+	margin-top: 0;
+	padding-top: 0;
+	margin-left: 210px;
+}
+.createForm div.pf-element .pf-field, .createForm div.pf-buttons .pf-button {
+	float: none;
+	margin-left: 5px; /* Margin between inputs and labels. */
+}
+.createForm div.pf-element .pf-field.pf-full-width {
+	display: block;
+	margin-left: 210px; /* Width of labels + margin between inputs and labels. */
+}
+.createForm div.pf-buttons {
+	clear: both;
+	padding-bottom: 0;
+	padding-left: 205px; /* Width of labels + margin to inputs - button spacing. */
+	border-top: 1px #ccc solid;
+	padding-top: 15px;
+}
+.createForm div.pf-buttons.pf-centered {
+	width: 100%;
+	padding-left: 0;
+	text-align: center;
+}
+.createForm div.pf-buttons .pf-button {
+	margin-left: 20px; /* Button spacing. */
+	margin-bottom: 10px;
+}
+
+
