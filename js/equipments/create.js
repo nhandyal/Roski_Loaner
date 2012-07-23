@@ -51,6 +51,17 @@ $(document).ready(function() {
 				}
 				$("#manuDate-day").html(optionHtml);
 		});
+		
+		$(".purch-changeDay").change(function(){
+				var daysInMonth = 32 - new Date($("#purchDate-year > option:selected").val(), $("#purchDate-month > option:selected").val()-1, 32).getDate();
+				var optionHtml = "";
+				for(var i = 1; i <= daysInMonth; i++){
+						optionHtml += "<option value='"+i+"'";
+						if (i == 1) { optionHtml += " selected='selected'";}
+						optionHtml += ">"+i+"</option>";
+				}
+				$("#purchDate-day").html(optionHtml);
+		});
 });
 
 
@@ -78,8 +89,9 @@ function submitForm(){
 		var access_area_str = access_area_ids.join(",");
 		
 		// create manufacture date ymd
-		var manufactureDate = new Date($("#manuDate-year > option:selected").val(),$("#manuDate-month > option:selected").val(),$("#manuDate-day > option:selected").val());
-		console.log(manufactureDate.getTime()/1000);
+		var manufactureDate = (new Date($("#manuDate-year > option:selected").val(),$("#manuDate-month > option:selected").val(),$("#manuDate-day > option:selected").val()).getTime())/1000;
+		var purchaseDate = (new Date($("#purchDate-year > option:selected").val(),$("#purchDate-month > option:selected").val(),$("#purchDate-day > option:selected").val()).getTime())/1000
+		
 		
 		//make an ajax post request.
 		$('#submitWaiting').css({"display" : "inline"});

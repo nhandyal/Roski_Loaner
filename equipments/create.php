@@ -237,7 +237,39 @@
 										Purchase Date:
 								</div>
 								<div class='pf-content-float'>
-										<input type="text" name="purchaseDate" id="purchaseDate" />
+										<?php
+											// create date drop down select
+											$now = getdate(time());
+											
+											// month
+											echo "<select id='purchDate-month' class='date-element purch-changeDay'>";
+											for ($i = 1; $i <= 12; $i++) {
+												echo "<option value='$i'";
+												if ($i == $now['mon']) { echo " selected='selected'";}
+												$month_text = date("F", mktime(0, 0, 0, $i+1, 0, 0, 0));
+												echo ">$month_text</option>";
+											}
+											echo "</select>";
+											
+											// day
+											echo "<select id='purchDate-day' class='date-element'>";
+											echo "Hi";
+											for ($i = 1; $i <= cal_days_in_month(CAL_GREGORIAN,$now['mon'],$now['year']); $i++){
+												echo "<option value='$i'";
+												if($i == $now['mday']) { echo " selected='selected'";}
+												echo ">$i</option>";
+											}
+											echo "</select>";
+											
+											// year
+											echo "<select id='purchDate-year' class='date-element purch-changeDay'>";
+											for ($i = $now['year']; $i >= $now['year']-20; $i--){
+												echo "<option value='$i'";
+												if($i == $now['year']) { echo " selected='selected'";}
+												echo ">$i</option>";
+											}
+											echo "</select>";
+										?>
 								</div>
 								<div class='clear'></div>
 						</div>
