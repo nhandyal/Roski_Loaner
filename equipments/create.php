@@ -95,7 +95,6 @@
 											
 											// day
 											echo "<select id='manuDate-day' class='date-element'>";
-											echo "Hi";
 											for ($i = 1; $i <= cal_days_in_month(CAL_GREGORIAN,$now['mon'],$now['year']); $i++){
 												echo "<option value='$i'";
 												if($i == $now['mday']) { echo " selected='selected'";}

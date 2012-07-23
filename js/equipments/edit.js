@@ -80,7 +80,8 @@ function submitForm(){
 		
 		var manufactureDate = (new Date($("#manuDate-year > option:selected").val(),$("#manuDate-month > option:selected").val(),$("#manuDate-day > option:selected").val()).getTime())/1000;
 		var purchaseDate = (new Date($("#purchDate-year > option:selected").val(),$("#purchDate-month > option:selected").val(),$("#purchDate-day > option:selected").val()).getTime())/1000;
-
+		console.log(manufactureDate);
+		
 		//make an ajax post request.
 		$('#submitWaiting').css({"display" : "inline"});
 		$.post("functions.php?edit=1",

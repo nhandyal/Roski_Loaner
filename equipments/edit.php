@@ -85,7 +85,39 @@
 										Manufacture Date:
 								</div>
 								<div class='pf-content-float'>
-										<input type="text" name="manufactureDate" id="manufactureDate" value=""/>
+										<?php
+											// create date drop down select
+											$manuDate = getdate($res['manufactureDate']);
+											
+											
+											// month
+											echo "<select id='manuDate-month' class='date-element manu-changeDay'>";
+											for ($i = 1; $i <= 12; $i++) {
+												echo "<option value='$i'";
+												if ($i == $manuDate['mon']) { echo " selected='selected'";}
+												$month_text = date("F", mktime(0, 0, 0, $i+1, 0, 0, 0));
+												echo ">$month_text</option>";
+											}
+											echo "</select>";
+											
+											// day
+											echo "<select id='manuDate-day' class='date-element'>";
+											for ($i = 1; $i <= cal_days_in_month(CAL_GREGORIAN,$manuDate['mon'],$manuDate['year']); $i++){
+												echo "<option value='$i'";
+												if($i == $manuDate['mday']) { echo " selected='selected'";}
+												echo ">$i</option>";
+											}
+											echo "</select>";
+											
+											// year
+											echo "<select id='manuDate-year' class='date-element manu-changeDay'>";
+											for ($i = $manuDate['year']+10; $i >= $manuDate['year']-10; $i--){
+												echo "<option value='$i'";
+												if($i == $manuDate['year']) { echo " selected='selected'";}
+												echo ">$i</option>";
+											}
+											echo "</select>";
+										?>
 								</div>
 								<div class='clear'></div>
 						</div>
@@ -226,7 +258,39 @@
 										Purchase Date:
 								</div>
 								<div class='pf-content-float'>
-										<input type="text" name="purchaseDate" id="purchaseDate" />
+										<?php
+											// create date drop down select
+											$purchDate = getdate($res['purchaseDate']);
+											
+											// month
+											echo "<select id='manuDate-month' class='date-element manu-changeDay'>";
+											for ($i = 1; $i <= 12; $i++) {
+												echo "<option value='$i'";
+												if ($i == $purchDate['mon']) { echo " selected='selected'";}
+												$month_text = date("F", mktime(0, 0, 0, $i+1, 0, 0, 0));
+												echo ">$month_text</option>";
+											}
+											echo "</select>";
+											
+											// day
+											echo "<select id='manuDate-day' class='date-element'>";
+											echo "Hi";
+											for ($i = 1; $i <= cal_days_in_month(CAL_GREGORIAN,$purchDate['mon'],$purchDate['year']); $i++){
+												echo "<option value='$i'";
+												if($i == $purchDate['mday']) { echo " selected='selected'";}
+												echo ">$i</option>";
+											}
+											echo "</select>";
+											
+											// year
+											echo "<select id='manuDate-year' class='date-element manu-changeDay'>";
+											for ($i = $purchDate['year']+10; $i >= $purchDate['year']-10; $i--){
+												echo "<option value='$i'";
+												if($i == $purchDate['year']) { echo " selected='selected'";}
+												echo ">$i</option>";
+											}
+											echo "</select>";
+										?>
 								</div>
 								<div class='clear'></div>
 						</div>

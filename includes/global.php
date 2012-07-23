@@ -6,17 +6,6 @@ date_default_timezone_set('America/Los_Angeles');
 $current_time = time(); //unix timestamp
 $admin_email = "andrekel@usc.edu";
 
-function clean_data($str){
-	return addslashes(htmlentities(trim($str)));
-}
-
-function showError(){
-	if(isset($_SESSION['error'])){
-		echo $_SESSION['error'];
-		unset($_SESSION['error']);
-	}
-}
-
 function friendlyDate($date){
 		if($date == 0){
 				return "";
