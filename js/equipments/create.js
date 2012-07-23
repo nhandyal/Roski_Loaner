@@ -96,7 +96,7 @@ function submitForm(){
 		//make an ajax post request.
 		$('#submitWaiting').css({"display" : "inline"});
 		
-		/*
+		
 		$.post("functions.php?create=1",
 						{
 						"kitid"       			:   $("#kitid").val(),
@@ -109,12 +109,12 @@ function submitForm(){
 						"equipCatID"				:		$("#equipCatID").val(),
 						"equipSubCatID"			:		$("#equipSubCatID").val(),						
 						"manufacturer"			:		$("#manufacturer").val(),
-						"manufactureDate"		:		$("#manufactureDateUnix").val()/1000,
+						"manufactureDate"		:		manufactureDate,
 						"expectedLifetime"	:		$("#expectedLifetime").val(),
 						"manufSerial"				:		$("#manufSerial").val(),
 						"location"					:		$("#location").val(),
 						"owner"							: 	$("#owner").val(),
-						"purchaseDate"			:		$("#purchaseDateUnix").val()/1000,
+						"purchaseDate"			:		purchaseDate,
 						"purchasePrice"			:		$("#purchasePrice").val(),
 						"ipAddress"					:		$("#ipAddress").val(),
 						"macAddress"				:		$("#macAddress").val(),
@@ -136,7 +136,6 @@ function submitForm(){
 								}
 						}
 		); //end of Ajax Post Request
-		*/
 }		 //end of binding Submit Button
 
 
