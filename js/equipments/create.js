@@ -40,7 +40,19 @@ $(document).ready(function() {
 						);
 				}
 		});
+		
+		$(".manu-changeDay").change(function(){
+				var daysInMonth = 32 - new Date($("#manuDate-year > option:selected").val(), $("#manuDate-month > option:selected").val()-1, 32).getDate();
+				var optionHtml = "";
+				for(var i = 1; i <= daysInMonth; i++){
+						optionHtml += "<option value='"+i+"'";
+						if (i == 1) { optionHtml += " selected='selected'";}
+						optionHtml += ">"+i+"</option>";
+				}
+				$("#manuDate-day").html(optionHtml);
+		});
 });
+
 
 function submitForm(){
 						
@@ -65,8 +77,14 @@ function submitForm(){
 		
 		var access_area_str = access_area_ids.join(",");
 		
+		// create manufacture date ymd
+		var manufactureDate = new Date($("#manuDate-year > option:selected").val(),$("#manuDate-month > option:selected").val(),$("#manuDate-day > option:selected").val());
+		console.log(manufactureDate.getTime()/1000);
+		
 		//make an ajax post request.
 		$('#submitWaiting').css({"display" : "inline"});
+		
+		/*
 		$.post("functions.php?create=1",
 						{
 						"kitid"       			:   $("#kitid").val(),
@@ -106,7 +124,9 @@ function submitForm(){
 								}
 						}
 		); //end of Ajax Post Request
+		*/
 }		 //end of binding Submit Button
+
 
 function getXMLHTTP() { //fuction to return the xml http object
 		var xmlhttp=false;	

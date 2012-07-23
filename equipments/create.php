@@ -84,7 +84,7 @@
 											$now = getdate(time());
 											
 											// month
-											echo "<select id='manuDate-month'>";
+											echo "<select id='manuDate-month' class='date-element manu-changeDay'>";
 											for ($i = 1; $i <= 12; $i++) {
 												echo "<option value='$i'";
 												if ($i == $now['mon']) { echo " selected='selected'";}
@@ -94,7 +94,7 @@
 											echo "</select>";
 											
 											// day
-											echo "<select id='manuDate-day'>";
+											echo "<select id='manuDate-day' class='date-element'>";
 											echo "Hi";
 											for ($i = 1; $i <= cal_days_in_month(CAL_GREGORIAN,$now['mon'],$now['year']); $i++){
 												echo "<option value='$i'";
@@ -104,7 +104,7 @@
 											echo "</select>";
 											
 											// year
-											echo "<select id='manuDate-year'>";
+											echo "<select id='manuDate-year' class='date-element manu-changeDay'>";
 											for ($i = $now['year']; $i >= $now['year']-20; $i--){
 												echo "<option value='$i'";
 												if($i == $now['year']) { echo " selected='selected'";}
