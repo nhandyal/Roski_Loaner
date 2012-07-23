@@ -10,20 +10,6 @@
 ?>
 
 <script type="text/javascript" src="../js/equipments/edit.js"></script>
-<script type="text/javascript">
-		$(document).ready(function() {
-				var d = ""+<?php echo date("d",$res['purchaseDate']); ?> ;
-				var m = ""+<?php echo date("m",$res['purchaseDate']); ?> ;
-				var y = ""+<?php echo date("Y",$res['purchaseDate']); ?> ;
-				$("#purchaseDate").val(''+m+'/'+d+'/'+y).trigger("change");
-				
-				var d = ""+<?php echo date("d",$res['manufactureDate']); ?> ;
-				var m = ""+<?php echo date("m",$res['manufactureDate']); ?> ;
-				var y = ""+<?php echo date("Y",$res['manufactureDate']); ?> ;
-				$("#manufactureDate").val(''+m+'/'+d+'/'+y).trigger("change");
-		});
-</script>
-
 <?php
 	require_once("../includes/headerClose.php"); //close the head tag and add all universal header elements
 ?>

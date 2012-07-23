@@ -1,20 +1,6 @@
 var validKitID = false;
 
-$(document).ready(function() {
-		$("#purchaseDate").datepicker({
-				changeYear: true,
-				changeMonth: true,
-				altFormat: '@',
-				altField: '#purchaseDateUnix'
-		});
-		
-		$("#manufactureDate").datepicker({
-				changeYear: true,
-				changeMonth: true,
-				altFormat: '@',
-				altField: '#manufactureDateUnix'
-		});
-		
+$(document).ready(function() {	
 		$("#kitid").blur(function(){
 				var id = $("#kitid").val();
 				if(id == ""){
@@ -90,7 +76,7 @@ function submitForm(){
 		
 		// create manufacture date ymd
 		var manufactureDate = (new Date($("#manuDate-year > option:selected").val(),$("#manuDate-month > option:selected").val(),$("#manuDate-day > option:selected").val()).getTime())/1000;
-		var purchaseDate = (new Date($("#purchDate-year > option:selected").val(),$("#purchDate-month > option:selected").val(),$("#purchDate-day > option:selected").val()).getTime())/1000
+		var purchaseDate = (new Date($("#purchDate-year > option:selected").val(),$("#purchDate-month > option:selected").val(),$("#purchDate-day > option:selected").val()).getTime())/1000;
 		
 		
 		//make an ajax post request.
