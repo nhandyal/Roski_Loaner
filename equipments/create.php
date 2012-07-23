@@ -79,7 +79,39 @@
 										Manufacture Date:<span class="required">*</span>:
 								</div>
 								<div class='pf-content-float'>
-										<input type="text" name="manufactureDate" id="manufactureDate" />
+										<?php
+											// create date drop down select
+											$now = getdate(time());
+											
+											// month
+											echo "<select id='manuDate-month'>";
+											for ($i = 1; $i <= 12; $i++) {
+												echo "<option value='$i'";
+												if ($i == $now['mon']) { echo " selected='selected'";}
+												$month_text = date("F", mktime(0, 0, 0, $i+1, 0, 0, 0));
+												echo ">$month_text</option>";
+											}
+											echo "</select>";
+											
+											// day
+											echo "<select id='manuDate-day'>";
+											echo "Hi";
+											for ($i = 1; $i <= cal_days_in_month(CAL_GREGORIAN,$now['mon'],$now['year']); $i++){
+												echo "<option value='$i'";
+												if($i == $now['mday']) { echo " selected='selected'";}
+												echo ">$i</option>";
+											}
+											echo "</select>";
+											
+											// year
+											echo "<select id='manuDate-year'>";
+											for ($i = $now['year']; $i >= $now['year']-20; $i--){
+												echo "<option value='$i'";
+												if($i == $now['year']) { echo " selected='selected'";}
+												echo ">$i</option>";
+											}
+											echo "</select>";
+										?>
 								</div>
 								<div class='clear'></div>
 						</div>
@@ -283,7 +315,6 @@
 				</fieldset>
 				<div class="pf-element" style="width:200px; margin:auto; float:none !important; padding-top:10px">
 						<input type="button" name="submit" id="submit" value="Submit" onclick="submitForm()"/>&nbsp;&nbsp;<input type="reset" value="Clear Form" />&nbsp&nbsp<img id="submitWaiting" class="waiting" src="../etc/loading.gif" width="15" height="15" style="display: none"/>
-						<input type='hidden' id='manufactureDateUnix' value='0'/>
 						<input type='hidden' id='purchaseDateUnix' value='0'/>
 				</div>
 		</form>
