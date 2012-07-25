@@ -105,6 +105,14 @@ function displayEquipment(){
 								$('#default-loan-length').val(jsonResponse.loan_length);
 								validateLoanLength();
 								hideError();
+								
+								// Add event listeners
+								$(".missing-item").click(function(){
+										missingItem(this);
+								});
+								$('.broken-item').click(function(){
+										brokenItem(this);		
+								});
 						}
 						else{
 								showError(jsonResponse.message);
@@ -187,4 +195,24 @@ function submitLoan(){
 								}
 						}
 		);//end of Ajax Post Request
+}
+
+function  missingItem(callingObj){
+		var equipmentWrapper = $(callingObj).parent().parent();
+		if($(equipmentWrapper).hasClass("missing")){
+				$(equipmentWrapper).removeClass("missing").addClass("not-scanned");
+		}
+		else{
+				$(equipmentWrapper).removeClass("not-scanned scanned broken").addClass("missing");
+		}
+}
+
+function brokenItem(callingObj){
+		var equipmentWrapper = $(callingObj).parent().parent();
+		if($(equipmentWrapper).hasClass("broken")){
+				$(equipmentWrapper).removeClass("broken").addClass("not-scanned");
+		}
+		else{
+				$(equipmentWrapper).removeClass("not-scanned missing").addClass("broken");
+		}
 }

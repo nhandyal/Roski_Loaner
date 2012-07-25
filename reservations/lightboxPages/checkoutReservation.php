@@ -89,8 +89,8 @@
 										$equipmentHTML = $equipmentHTML.'Notes: '.$notes.'<br/>';
 										$equipmentHTML = $equipmentHTML.'</div>';
 										$equipmentHTML = $equipmentHTML.'<div class="equipment-functions">';
-										$equipmentHTML = $equipmentHTML.'<img src="../etc/grey-cross.png" width="9" height="9" title="Missing Item" onclick="missingItem()"/>';
-										$equipmentHTML = $equipmentHTML.'<img src="../etc/wrench_icon.png" width="12" height="12" title="Broken Item" onclick="brokenItem()"/>';
+										$equipmentHTML = $equipmentHTML.'<img class="missing-item" src="../etc/grey-cross.png" width="9" height="9" title="Missing Item"/>';
+										$equipmentHTML = $equipmentHTML.'<img class="broken-item" src="../etc/wrench_icon.png" width="12" height="12" title="Broken Item"/>';
 										$equipmentHTML = $equipmentHTML.'</div></div>';
 										
 										$i++;

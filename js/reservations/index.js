@@ -76,15 +76,22 @@ function showCheckoutLightbox(loanID){
 		$.fancybox.showActivity();
 		$.get(targetURL,function(response){
 				$.fancybox({
-								'autoDimensions'	: false,
-								'width'						: 1100,
-								'height'					: 618,
-								'centerOnScroll'	: true,
-								'content'					: response,
-								'onComplete'			: function(){fancyBoxResize()}
-						});
-				}
-		);
+						'autoDimensions'	: false,
+						'width'						: 1100,
+						'height'					: 618,
+						'centerOnScroll'	: true,
+						'content'					: response,
+						'onComplete'			: function(){fancyBoxResize()}
+				});
+				
+				// Add event listeners
+				$(".missing-item").click(function(){
+						missingItem(this);
+				});
+				$('.broken-item').click(function(){
+						brokenItem(this);		
+				});
+		});
 }
 
 function validateEqID(obj){ // function to see if scanned item is displayed in the item list
@@ -139,4 +146,24 @@ function submitReservation(){
 				}
 		}
 		);
+}
+
+function  missingItem(callingObj){
+		var equipmentWrapper = $(callingObj).parent().parent();
+		if($(equipmentWrapper).hasClass("missing")){
+				$(equipmentWrapper).removeClass("missing").addClass("not-scanned");
+		}
+		else{
+				$(equipmentWrapper).removeClass("not-scanned scanned broken").addClass("missing");
+		}
+}
+
+function brokenItem(callingObj){
+		var equipmentWrapper = $(callingObj).parent().parent();
+		if($(equipmentWrapper).hasClass("broken")){
+				$(equipmentWrapper).removeClass("broken").addClass("not-scanned");
+		}
+		else{
+				$(equipmentWrapper).removeClass("not-scanned missing").addClass("broken");
+		}
 }

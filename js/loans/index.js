@@ -35,15 +35,22 @@ function returnLoan(loanID){
 		$.fancybox.showActivity();
 		$.get(targetURL,function(response){
 				$.fancybox({
-								'autoDimensions'	: false,
-								'centerOnScroll'	: true, 
-								'width'						: 1100,
-								'height'					: 618,
-								'content'					: response,
-								'onComplete'			: function(){fancyBoxResize()}
-						});		
-				}
-		);
+						'autoDimensions'	: false,
+						'centerOnScroll'	: true, 
+						'width'			: 1100,
+						'height'		: 618,
+						'content'		: response,
+						'onComplete'		: function(){fancyBoxResize()}
+				});
+				
+				// Add event listeners
+				$(".missing-item").click(function(){
+						missingItem(this);
+				});
+				$('.broken-item').click(function(){
+						brokenItem(this);		
+				});
+		});
 }
 
 function renew(loanID, view){
@@ -119,4 +126,24 @@ function returnSubmit(){
 								}
 						}
 		);//end of Ajax Post Request
+}
+
+function  missingItem(callingObj){
+		var equipmentWrapper = $(callingObj).parent().parent();
+		if($(equipmentWrapper).hasClass("missing")){
+				$(equipmentWrapper).removeClass("missing").addClass("not-scanned");
+		}
+		else{
+				$(equipmentWrapper).removeClass("not-scanned scanned broken").addClass("missing");
+		}
+}
+
+function brokenItem(callingObj){
+		var equipmentWrapper = $(callingObj).parent().parent();
+		if($(equipmentWrapper).hasClass("broken")){
+				$(equipmentWrapper).removeClass("broken").addClass("not-scanned");
+		}
+		else{
+				$(equipmentWrapper).removeClass("not-scanned missing").addClass("broken");
+		}
 }

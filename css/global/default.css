@@ -511,7 +511,7 @@ input:focus, textarea:focus {
 		display:none;
 }
 .readonly{
-		border:none;
+		border-color: transparent;
 		outline:none;
 		line-height:15px;
 		font-weight:bold;
@@ -567,4 +567,10 @@ input:focus, textarea:focus {
 }
 .scanned{
 		background: rgb(161,214,86);
+}
+.broken{
+		background: rgb(247,162,72);
+}
+.missing{
+		background: red;
 }
