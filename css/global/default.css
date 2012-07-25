@@ -538,10 +538,23 @@ input:focus, textarea:focus {
 		width:22%;
 		margin-left:1%;
 }
-.equipment{
+.equipment-wrapper{
 		float:left;
 		width:23%;
 		margin-left:1%;
+}
+.equipment{
+		width:93%;
+		float:left;
+}
+.equipment-functions{
+		display: inline-block;
+		float: right;
+		padding-top: 3px;
+}
+.equipment-functions img{
+		display: block;
+		padding-bottom: 3px;
 }
 .not-scanned{
 		background: rgb(215,81,75);
