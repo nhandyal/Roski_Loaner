@@ -83,11 +83,15 @@
 										}
 										
 										$inputHTML = $inputHTML.'<input id="input_'.$equipmentID.'" class="equipment-input" type="text" onchange="validateEqID(this)"//>';
-										$equipmentHTML = $equipmentHTML.'<div id="'.$equipmentID.'" class="equipment not-scanned">';
+										$equipmentHTML = $equipmentHTML.'<div id="'.$equipmentID.'" class="equipment-wrapper not-scanned"><div class="equipment">';
 										$equipmentHTML = $equipmentHTML.'Equipment ID: '.$equipmentID.'<br/>';
 										$equipmentHTML = $equipmentHTML.'Model: '.$model.'<br/>';
 										$equipmentHTML = $equipmentHTML.'Notes: '.$notes.'<br/>';
 										$equipmentHTML = $equipmentHTML.'</div>';
+										$equipmentHTML = $equipmentHTML.'<div class="equipment-functions">';
+										$equipmentHTML = $equipmentHTML.'<img src="../etc/grey-cross.png" width="9" height="9" title="Missing Item" onclick="missingItem()"/>';
+										$equipmentHTML = $equipmentHTML.'<img src="../etc/wrench_icon.png" width="12" height="12" title="Broken Item" onclick="brokenItem()"/>';
+										$equipmentHTML = $equipmentHTML.'</div></div>';
 										
 										$i++;
 										

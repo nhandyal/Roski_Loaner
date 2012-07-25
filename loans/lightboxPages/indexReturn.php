@@ -87,7 +87,10 @@
 										$equipmentHTML = $equipmentHTML.'Model: '.$model.'<br/>';
 										$equipmentHTML = $equipmentHTML.'Notes: '.$notes.'<br/>';
 										$equipmentHTML = $equipmentHTML.'</div>';
-										$equipmentHTML = $equipmentHTML.'<div class="equipment-functions"><img src="../etc/grey-cross.png" width="9" height="9"/><img src="../etc/wrench_icon.png" width="12" height="12"/></div></div>';
+										$equipmentHTML = $equipmentHTML.'<div class="equipment-functions">';
+										$equipmentHTML = $equipmentHTML.'<img src="../etc/grey-cross.png" width="9" height="9" title="Missing Item" onclick="missingItem()"/>';
+										$equipmentHTML = $equipmentHTML.'<img src="../etc/wrench_icon.png" width="12" height="12" title="Broken Item" onclick="brokenItem()"/>';
+										$equipmentHTML = $equipmentHTML.'</div></div>';
 										
 										$i++;
 										

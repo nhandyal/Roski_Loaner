@@ -535,13 +535,16 @@ input:focus, textarea:focus {
 		margin-top:20px;
 }
 .equipment-input{
-		width:22%;
+		width:23%;
 		margin-left:1%;
+		padding: 0px;
 }
 .equipment-wrapper{
 		float:left;
 		width:23%;
 		margin-left:1%;
+		border: 2px solid;
+		border-color: transparent;
 }
 .equipment{
 		width:93%;
@@ -555,6 +558,9 @@ input:focus, textarea:focus {
 .equipment-functions img{
 		display: block;
 		padding-bottom: 3px;
+}
+.equipment-functions img:hover{
+		cursor: pointer;
 }
 .not-scanned{
 		background: rgb(215,81,75);

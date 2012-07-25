@@ -4,7 +4,7 @@
     require_once("../includes/headerOpen.php");
 ?>
 
-		<link rel="stylesheet" type="text/css" href="../css/loans/loans.css">
+		<!--<link rel="stylesheet" type="text/css" href="../css/loans/loans.css">-->
 		<script type="text/javascript" src="../js/loans/returnLoan.js"></script>
 
 <?php
