@@ -37,9 +37,12 @@
 		else if($_GET["view"]=="damaged"){
 			$queryString .= "SELECT equipments.kitid, equipments.equipmentid, equipments.model, equipCategory.equipCatName, locations.locationName FROM equipments LEFT JOIN equipCategory ON equipments.equipCatID = equipCategory.equipCatID LEFT JOIN locations ON equipments.locationID = locations.locationID WHERE equipments.condID=5 AND ";
 		}
+		else{
+			$queryString .= "SELECT equipments.kitid, equipments.equipmentid, equipments.model, equipCategory.equipCatName, locations.locationName FROM equipments LEFT JOIN equipCategory ON equipments.equipCatID = equipCategory.equipCatID LEFT JOIN locations ON equipments.locationID = locations.locationID WHERE (equipments.condID<>6 AND equipments.condID<>5) AND ";
+		}
 	}
 	else{
-		$queryString .= "SELECT equipments.kitid, equipments.equipmentid, equipments.model, equipCategory.equipCatName, locations.locationName FROM equipments LEFT JOIN equipCategory ON equipments.equipCatID = equipCategory.equipCatID LEFT JOIN locations ON equipments.locationID = locations.locationID WHERE ";
+		$queryString .= "SELECT equipments.kitid, equipments.equipmentid, equipments.model, equipCategory.equipCatName, locations.locationName FROM equipments LEFT JOIN equipCategory ON equipments.equipCatID = equipCategory.equipCatID LEFT JOIN locations ON equipments.locationID = locations.locationID WHERE (equipments.condID<>6 AND equipments.condID<>5) AND ";
 	}
 	
 	//check to see if sort by category or search field is populated and append to the query string
@@ -136,6 +139,10 @@
 							?>
 						</select>
 				</div>
+				<?php
+					if(isset($_GET['view']))
+						echo "<input type='hidden' name='view' value='".$_GET['view']."' />";
+				?>
 		</form>
 	</div>
 	<div id='type_selection'>
