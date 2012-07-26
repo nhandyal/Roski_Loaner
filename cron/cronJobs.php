@@ -16,7 +16,7 @@
 		}
 		
 		// Update users table with new fine amounts
-		$query = "SELECT payments.userid, payments.deptID, payments.paymentTotal, fines.userid, fines.deptID, fines.fineTotal FROM (SELECT userid, deptID, sum(fine) AS fineTotal FROM loans GROUP BY userid, deptID) AS fines LEFT JOIN (SELECT userid, deptID, sum(amount) AS paymentTotal FROM fines GROUP BY userid, deptID) AS payments ON fines.userid=payments.userid AND fines.deptID=payments.deptID";
+		$query = "SELECT payments.userid, payments.deptID, payments.paymentTotal, fines.userid, fines.deptID, fines.fineTotal FROM (SELECT userid, deptID, sum(fine) AS fineTotal FROM loans GROUP BY userid, deptID) AS fines LEFT JOIN (SELECT userid, deptID, sum(amount) AS paymentTotal FROM finePayments GROUP BY userid, deptID) AS payments ON fines.userid=payments.userid AND fines.deptID=payments.deptID";
 		$result = mysql_query($query);
 		while($r = mysql_fetch_assoc($result)){
 				$userFine = $r['fineTotal']-$r['paymentTotal'];

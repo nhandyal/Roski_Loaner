@@ -69,7 +69,7 @@
 						<td class='user-fines-tableHeader-element table-element-amount'>Amount ($)</td>
 				</tr>
 				<?php
-						$query = "SELECT * FROM fines WHERE userid='".$userid."'";
+						$query = "SELECT * FROM finePayments WHERE userid='".$userid."'";
 						$result = mysql_query($query);
 						$i = 1;
 						while($r = mysql_fetch_assoc($result)){
