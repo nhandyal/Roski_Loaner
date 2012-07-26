@@ -84,7 +84,7 @@
 											$now = getdate(time());
 											
 											// month
-											echo "<select id='manuDate-month' class='date-element manu-changeDay'>";
+											echo "<select id='manuDate-month' class='date-element manu-changeDay yearSelect'>";
 											for ($i = 1; $i <= 12; $i++) {
 												echo "<option value='$i'";
 												if ($i == $now['mon']) { echo " selected='selected'";}
@@ -103,7 +103,7 @@
 											echo "</select>";
 											
 											// year
-											echo "<select id='manuDate-year' class='date-element manu-changeDay'>";
+											echo "<select id='manuDate-year' class='date-element manu-changeDay yearSelect'>";
 											for ($i = $now['year']; $i >= $now['year']-20; $i--){
 												echo "<option value='$i'";
 												if($i == $now['year']) { echo " selected='selected'";}
@@ -241,7 +241,7 @@
 											$now = getdate(time());
 											
 											// month
-											echo "<select id='purchDate-month' class='date-element purch-changeDay'>";
+											echo "<select id='purchDate-month' class='date-element purch-changeDay yearSelect'>";
 											for ($i = 1; $i <= 12; $i++) {
 												echo "<option value='$i'";
 												if ($i == $now['mon']) { echo " selected='selected'";}
@@ -261,7 +261,7 @@
 											echo "</select>";
 											
 											// year
-											echo "<select id='purchDate-year' class='date-element purch-changeDay'>";
+											echo "<select id='purchDate-year' class='date-element purch-changeDay yearSelect'>";
 											for ($i = $now['year']; $i >= $now['year']-20; $i--){
 												echo "<option value='$i'";
 												if($i == $now['year']) { echo " selected='selected'";}

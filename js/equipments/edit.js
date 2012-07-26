@@ -26,6 +26,17 @@ $(document).ready(function() {
 				}
 				$("#purchDate-day").html(optionHtml);
 		});
+		
+		$(".yearSelect").change(function(){
+				var optionHtml = "";
+				var selected = parseInt($(this).children("option:selected").val());
+				for (var i = selected+10; i >= selected -10; i--){
+						optionHtml += "<option value='"+i+"'";
+						if(i == selected) { optionHtml += " selected='selected'";}
+						optionHtml += ">"+i+"</option>";
+				}
+				$(this).html(optionHtml);
+		});
 });
 
 function validateKitID(){
@@ -78,8 +89,8 @@ function submitForm(){
 		
 		var access_area_str = access_area_ids.join(",");
 		
-		var manufactureDate = (new Date($("#manuDate-year > option:selected").val(),$("#manuDate-month > option:selected").val(),$("#manuDate-day > option:selected").val()).getTime())/1000;
-		var purchaseDate = (new Date($("#purchDate-year > option:selected").val(),$("#purchDate-month > option:selected").val(),$("#purchDate-day > option:selected").val()).getTime())/1000;
+		var manufactureDate = (new Date($("#manuDate-year > option:selected").val(),$("#manuDate-month > option:selected").val()-1,$("#manuDate-day > option:selected").val()).getTime())/1000;
+		var purchaseDate = (new Date($("#purchDate-year > option:selected").val(),$("#purchDate-month > option:selected").val()-1,$("#purchDate-day > option:selected").val()).getTime())/1000;
 		
 		//make an ajax post request.
 		$('#submitWaiting').css({"display" : "inline"});

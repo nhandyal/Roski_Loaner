@@ -110,7 +110,7 @@
 											echo "</select>";
 											
 											// year
-											echo "<select id='manuDate-year' class='date-element manu-changeDay'>";
+											echo "<select id='manuDate-year' class='date-element manu-changeDay yearSelect'>";
 											for ($i = $manuDate['year']+10; $i >= $manuDate['year']-10; $i--){
 												echo "<option value='$i'";
 												if($i == $manuDate['year']) { echo " selected='selected'";}
@@ -263,7 +263,7 @@
 											$purchDate = getdate($res['purchaseDate']);
 											
 											// month
-											echo "<select id='manuDate-month' class='date-element manu-changeDay'>";
+											echo "<select id='purchDate-month' class='date-element purch-changeDay'>";
 											for ($i = 1; $i <= 12; $i++) {
 												echo "<option value='$i'";
 												if ($i == $purchDate['mon']) { echo " selected='selected'";}
@@ -273,7 +273,7 @@
 											echo "</select>";
 											
 											// day
-											echo "<select id='manuDate-day' class='date-element'>";
+											echo "<select id='purchDate-day' class='date-element'>";
 											echo "Hi";
 											for ($i = 1; $i <= cal_days_in_month(CAL_GREGORIAN,$purchDate['mon'],$purchDate['year']); $i++){
 												echo "<option value='$i'";
@@ -283,7 +283,7 @@
 											echo "</select>";
 											
 											// year
-											echo "<select id='manuDate-year' class='date-element manu-changeDay'>";
+											echo "<select id='purchDate-year' class='date-element purch-changeDay yearSelect'>";
 											for ($i = $purchDate['year']+10; $i >= $purchDate['year']-10; $i--){
 												echo "<option value='$i'";
 												if($i == $purchDate['year']) { echo " selected='selected'";}
