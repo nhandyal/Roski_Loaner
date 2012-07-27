@@ -153,7 +153,7 @@
 				$type = $_POST['type'];
 				$return_date = time();
 				
-				
+				// update loan status
 				$updateQuery = "";
 				switch($type){
 						case "Kit":

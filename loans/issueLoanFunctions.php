@@ -47,111 +47,152 @@
 				$itemID = $_GET['validateItemID'];
 				$userid = $_GET['userid'];
 				
-				// Check if the item exists
+				// Check if the item is available to checkout
 				$query = "";
 				switch($_GET['type']){
 						case "Kit":
-								$query = "SELECT kitid FROM kits WHERE kitid='".$itemID."' AND status > 0 AND deptID=".$_SESSION['dept'];
+								$query = "SELECT status FROM kits WHERE kitid='".$itemID."' deptID=".$_SESSION['dept'];
 								break;
 						case "Equipment":
-								$query = "SELECT equipmentid FROM equipments WHERE equipmentid='".$itemID."' AND status > 0 AND deptID=".$_SESSION['dept'];
+								$query = "SELECT status FROM equipments WHERE equipmentid='".$itemID."' AND deptID=".$_SESSION['dept'];
 								break;
 				}
-				$result = mysql_query($query);
+				$r = mysql_fetch_assoc(mysql_query($query));
 				if(mysql_errno() != 0){sqlError(mysql_errno(),mysql_error());}
 				
-				if(mysql_num_rows($result) != 1){
+				if($r['status'] == 1){
+						// item is available, perform further tests to see if item can be checked out to specified user
+						
+						// If item is a kit, check if all component equipment are available.
+						$query = "SELECT equipmentid FROM equipments WHERE (status=2 OR status=7) and kitid='".$itemID."'";
+						$result = mysql_query($query);
+						if(mysql_errno() != 0){sqlError(mysql_errno(),mysql_error());}
+						if(mysql_num_rows($result) != 0){
+								$response['status'] = 1;
+								$response['message'] = "All requested items are not available at this time to check out. Equipment id:";
+								while ($r = mysql_fetch_assoc($result)){
+										$response['message'] = $response['message']." ".$r['equipmentid'];
+								}
+								echo json_encode($response);
+								exit(0);
+						}
+						
+						// Check if the user has acces to the item
+						$query = "SELECT accessid FROM users_accessareas WHERE userid ='".$userid."'";
+						$result = mysql_query($query);
+						if(mysql_errno() != 0){sqlError(mysql_errno(),mysql_error());}
+						
+						switch($_GET['type']){
+								case "Kit":
+										$query = "SELECT kitid FROM kits_accessareas WHERE ( accessid = 0";
+										break;
+								case "Equipment":
+										$query = "SELECT equipmentid FROM equipments_accessareas WHERE ( accessid = 0";
+										break;
+						}
+						
+						while($r = mysql_fetch_assoc($result)){
+								$query = $query." OR accessid=".$r['accessid'];
+						}
+						
+						switch($_GET['type']){
+								case "Kit":
+										$query = $query." ) AND kitid =".$itemID;
+										break;
+								case "Equipment":
+										$query = $query." ) AND equipmentid =".$itemID;
+										break;
+						}
+						$result = mysql_query($query);
+						if(mysql_errno() != 0){sqlError(mysql_errno(),mysql_error());}
+						
+						if(mysql_num_rows($result) == 0){
+								$response['status'] = 1;
+								$response['message'] = "User does not have access for this ".strtolower($_GET['type']);
+								echo json_encode($response);
+								exit(0);
+						}
+						else{
+								$response['status'] = 0;
+								echo json_encode($response);
+								exit(0);
+						}
+				}
+				else if($r['status'] == 2 || $r['status'] == 7){
+						// Item has been checked out, return due date.
+						// One of the following conditions MUST be true
+						
+						// If item is a kit, return due date off loans table
+						if($_GET['type'] == "Kit"){
+								$query = "SELECT due_date FROM loans WHERE kitid='".$itemID."' AND (status = 2 OR status = 3 OR status = 7)";
+								$result = mysql_query($query);
+								if(mysql_errno() != 0){sqlError(mysql_errno(),mysql_error());}
+								
+								$r = mysql_fetch_assoc($result);
+								$response['status'] = 1;
+								$response['message'] = "Kit is currently checked out. Due back on: ".date("m-d-y -- h:i A" ,$r['due_date']);
+								echo json_encode($response);
+								exit(0);
+						}
+						
+						// At this point item is an equipment. There are two possibilities for equipment. Check for both
+						// 1: equipment is on a direct loan
+						// 2: equipment is part of a kit that is on loan
+						
+						// Check case 1
+						$query = "SELECT due_date FROM loans WHERE equipmentid='$itemID' AND ( status = 2 OR status = 3 OR status = 7)";
+						$$result = mysql_query($query);
+						if(mysql_errno() != 0){sqlError(mysql_errno(),mysql_error());}
+						
+						$r = mysql_fetch_assoc($result);
+						$response['status'] = 1;
+						$response['message'] = "Equipment is currently checked out. Due back on: ".date("m-d-y -- h:i A" ,$r['due_date']);
+						echo json_encode($response);
+						exit(0);
+						
+						// Check case 2
+						$query = "SELECT kitid FROM equipments WHERE equipmentid='$itemID'";
+						$r = mysql_fetch_assoc(mysql_query($query));
+						if ($r['kitid'] != ""){
+								$query = "SELECT due_date FROM loans WHERE kitid='".$r['kitid']."' AND (status = 2 OR status = 3 OR status = 7)";
+								$result = mysql_query($query);
+								
+								if(mysql_num_rows($result) != 0){
+										$r = mysql_fetch_assoc($result);
+										$response['status'] = 1;
+										$response['message'] = "Equipment is part of a kit that is currently checked out. Kit due back on: ".date("m-d-y -- h:i A" ,$r['due_date']);
+										echo json_encode($response);
+										exit(0);
+								}
+						}
+				}
+				else if($r['status'] == 3){
+						// item is damaged
+						$response['status'] = 1;
+						$response['message'] = "Item is damaged and cannot be checked out.";
+						echo json_encode($response);
+						exit(0);
+				}
+				else if($r['status'] == 4){
+						// item is missing
+						$response['status'] = 1;
+						$response['message'] = "Do you know where this item is? We don't... It's missing.";
+						echo json_encode($response);
+						exit(0);
+				}
+				else{
+						// Invalid item id
 						$response['status'] = 1;
 						$response['message'] = "Invalid ".$_GET['type']." ID";
 						echo json_encode($response);
 						exit(0);
 				}
 				
-				// Check if there is a current loan on the item
-				// We will check if there is a conflict with a reservation when we submit the loan
-				switch($_GET['type']){
-						case "Kit":
-								$query = "SELECT due_date FROM loans WHERE kitid='".$itemID."' AND (status = 2 OR status = 3 OR status = 7)";
-								break;
-						case "Equipment":
-								$query = "SELECT due_date FROM loans WHERE equipmentid='".$itemID."' AND (status = 2 OR status = 3 OR status = 7)";
-								break;
-				}
-				$result = mysql_query($query);
-				if(mysql_errno() != 0){sqlError(mysql_errno(),mysql_error());}
-				
-				if(mysql_num_rows($result) != 0){
-						$r = mysql_fetch_assoc($result);
-						$response['status'] = 1;
-						$response['message'] = $_GET['type']." is currently checked out. Due back on: ".date("m-d-y -- h:i A" ,$r['due_date']);
-						echo json_encode($response);
-						exit(0);
-				}
-				
-				// If item is a kit, check if all component equipment are available. If item is equipment, make sure equipment is available
-				// This does not need to check if the items is deactivated because that is already taken care of earlier
-				switch($_GET['type']){
-						case "Kit":
-								$query = "SELECT equipmentid FROM equipments WHERE (status=2 OR status=7) and kitid='".$itemID."'";
-								break;
-						case "Equipment":
-								$query = "SELECT equipmentid FROM equipments WHERE (status=2 OR status=7) AND equipmentid='".$itemID."'";
-								break;
-				}
-				
-				$result = mysql_query($query);
-				if(mysql_errno() != 0){sqlError(mysql_errno(),mysql_error());}
-				if(mysql_num_rows($result) != 0){
-						$response['status'] = 1;
-						$response['message'] = "All requested items are not available at this time to check out. Equipment id:";
-						while ($r = mysql_fetch_assoc($result)){
-								$response['message'] = $response['message']." ".$r['equipmentid'];
-						}
-						echo json_encode($response);
-						exit(0);
-				}
-				
-				// Check if the user has acces to the item
-				$query = "SELECT accessid FROM users_accessareas WHERE userid ='".$userid."'";
-				$result = mysql_query($query);
-				if(mysql_errno() != 0){sqlError(mysql_errno(),mysql_error());}
-				
-				
-				switch($_GET['type']){
-						case "Kit":
-								$query = "SELECT kitid FROM kits_accessareas WHERE ( accessid = 0";
-								break;
-						case "Equipment":
-								$query = "SELECT equipmentid FROM equipments_accessareas WHERE ( accessid = 0";
-								break;
-				}
-				
-				while($r = mysql_fetch_assoc($result)){
-						$query = $query." OR accessid=".$r['accessid'];
-				}
-				
-				switch($_GET['type']){
-						case "Kit":
-								$query = $query." ) AND kitid =".$itemID;
-								break;
-						case "Equipment":
-								$query = $query." ) AND equipmentid =".$itemID;
-								break;
-				}
-				$result = mysql_query($query);
-				if(mysql_errno() != 0){sqlError(mysql_errno(),mysql_error());}
-				
-				if(mysql_num_rows($result) == 0){
-						$response['status'] = 1;
-						$response['message'] = "User does not have access for this ".strtolower($_GET['type']);
-						echo json_encode($response);
-						exit(0);
-				}
-				else{
-						$response['status'] = 0;
-						echo json_encode($response);
-						exit(0);
-				}
+				// Execution should never reach this point. If it has, there was an error processing the request somewhere and a bug should be reported
+				$response['status'] = 1;
+				$response['message'] = "There was an error processing your request. Please notify an administrator to have the issue resolved.";
+				echo json_encode($response);
+				exit(0);
 		}
 		
 		// Get Item Equipment

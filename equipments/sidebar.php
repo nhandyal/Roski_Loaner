@@ -3,5 +3,4 @@
 	<li><a href="index.php">All Equipment</a></li>
 	<li><a href='index.php?view=damaged'>Damaged Equipment</a></li>
 	<li><a href='index.php?view=missing'>Missing Equipment</a></li>
-	
 </ul>
