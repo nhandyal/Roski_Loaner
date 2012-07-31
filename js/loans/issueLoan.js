@@ -105,14 +105,9 @@ function displayEquipment(){
 								$('#default-loan-length').val(jsonResponse.loan_length);
 								validateLoanLength();
 								hideError();
-								
-								// Add event listeners
-								$(".missing-item").click(function(){
-										missingItem(this);
-								});
-								$('.broken-item').click(function(){
-										brokenItem(this);		
-								});
+								$('body').append("<input type='hidden' id='all-items-ok' value='"+jsonResponse.all_items_ok+"' />");
+								if( jsonResponse.all_items_ok == false)
+										showError("There are items in this loan that cannot be checked out due to there condition. You must edit the condition of the items before you can check them out.");
 						}
 						else{
 								showError(jsonResponse.message);
@@ -144,6 +139,11 @@ function validateEqID(obj){ // function to see if scanned item is displayed in t
 }
 
 function submitLoan(){
+		
+		if($('#all-items-ok').val() == 'false'){
+				showError("There are items in this loan that cannot be checked out due to there condition. You must edit the condition of the items before you can check them out.");
+				return false;
+		}
 		
 		var notes = "";
 		
@@ -195,24 +195,4 @@ function submitLoan(){
 								}
 						}
 		);//end of Ajax Post Request
-}
-
-function  missingItem(callingObj){
-		var equipmentWrapper = $(callingObj).parent().parent();
-		if($(equipmentWrapper).hasClass("missing")){
-				$(equipmentWrapper).removeClass("missing").addClass("not-scanned");
-		}
-		else{
-				$(equipmentWrapper).removeClass("not-scanned scanned broken").addClass("missing");
-		}
-}
-
-function brokenItem(callingObj){
-		var equipmentWrapper = $(callingObj).parent().parent();
-		if($(equipmentWrapper).hasClass("broken")){
-				$(equipmentWrapper).removeClass("broken").addClass("not-scanned");
-		}
-		else{
-				$(equipmentWrapper).removeClass("not-scanned missing").addClass("broken");
-		}
 }

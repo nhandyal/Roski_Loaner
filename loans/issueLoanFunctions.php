@@ -51,7 +51,7 @@
 				$query = "";
 				switch($_GET['type']){
 						case "Kit":
-								$query = "SELECT status FROM kits WHERE kitid='".$itemID."' deptID=".$_SESSION['dept'];
+								$query = "SELECT status FROM kits WHERE kitid='".$itemID."' AND deptID=".$_SESSION['dept'];
 								break;
 						case "Equipment":
 								$query = "SELECT status FROM equipments WHERE equipmentid='".$itemID."' AND deptID=".$_SESSION['dept'];
@@ -61,9 +61,9 @@
 				if(mysql_errno() != 0){sqlError(mysql_errno(),mysql_error());}
 				
 				if($r['status'] == 1){
-						// item is available, perform further tests to see if item can be checked out to specified user
+						// item is available, perform further tests to see if item can be checked out
 						
-						// If item is a kit, check if all component equipment are available.
+						// If item is a kit, check if all component equipment are available
 						$query = "SELECT equipmentid FROM equipments WHERE (status=2 OR status=7) and kitid='".$itemID."'";
 						$result = mysql_query($query);
 						if(mysql_errno() != 0){sqlError(mysql_errno(),mysql_error());}
@@ -195,8 +195,9 @@
 				exit(0);
 		}
 		
-		// Get Item Equipment
+		// Get Equipment Listed and display if they are in usable condition, damaged, or missing
 		if(isset($_GET['getEQ'])){
+				$allItemsOK = true;
 				$itemID = $_GET['getEQ'];
 				$type = $_GET['type'];
 				$query = "";
@@ -227,14 +228,23 @@
 						}
 						
 						$inputHTML = $inputHTML.'<input id="input_'.$equipmentID.'" class="equipment-input" type="text" onchange="validateEqID(this)"//>';
-						$equipmentHTML = $equipmentHTML.'<div id="'.$equipmentID.'" class="equipment-wrapper not-scanned"><div class="equipment">';
+						$equipmentHTML = $equipmentHTML.'<div id="'.$equipmentID.'" class="equipment-wrapper';
+						
+						if ($result['condID'] == 5){
+								$equipmentHTML .= ' broken';
+								$allItemsOK = FALSE;
+						}
+						else if($result['condID'] == 6){
+								$equipmentHTML .= ' missing';
+								$allItemsOK = FALSE;
+						}
+						else
+								$equipmentHTML .= ' not-scanned';
+								
+						$equipmentHTML .= '"><div class="equipment">';
 						$equipmentHTML = $equipmentHTML.'Equipment ID: '.$equipmentID.'<br/>';
 						$equipmentHTML = $equipmentHTML.'Model: '.$model.'<br/>';
 						$equipmentHTML = $equipmentHTML.'Notes: '.$notes.'<br/>';
-						$equipmentHTML = $equipmentHTML.'</div>';
-						$equipmentHTML = $equipmentHTML.'<div class="equipment-functions">';
-						$equipmentHTML = $equipmentHTML.'<img class="missing-item" src="../etc/grey-cross.png" width="9" height="9" title="Missing Item"/>';
-						$equipmentHTML = $equipmentHTML.'<img class="broken-item" src="../etc/wrench_icon.png" width="12" height="12" title="Broken Item"/>';
 						$equipmentHTML = $equipmentHTML.'</div></div>';
 						
 						$i++;
@@ -280,6 +290,7 @@
 								break;
 				}
 				
+				$response['all_items_ok'] = $allItemsOK;
 				$response['status'] = 0;
 				$response['loan_length'] = $loan_length;
 				$response['message'] = $html;
