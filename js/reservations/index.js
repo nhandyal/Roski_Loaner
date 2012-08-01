@@ -83,14 +83,6 @@ function showCheckoutLightbox(loanID){
 						'content'					: response,
 						'onComplete'			: function(){fancyBoxResize()}
 				});
-				
-				// Add event listeners
-				$(".missing-item").click(function(){
-						missingItem(this);
-				});
-				$('.broken-item').click(function(){
-						brokenItem(this);		
-				});
 		});
 }
 
@@ -107,7 +99,10 @@ function validateEqID(obj){ // function to see if scanned item is displayed in t
 }
 
 function validateSubmit(){
-		if( (document.getElementsByClassName("not-scanned")).length == 0){
+		if($('#all-items-ok').val() == "false"){
+				alert("There are items in this loan that cannot be checked out due to there condition. You must edit the condition of the items before you can check them out.");
+		}
+		else if( (document.getElementsByClassName("not-scanned")).length == 0){
 				submitReservation();
 		}
 		else{

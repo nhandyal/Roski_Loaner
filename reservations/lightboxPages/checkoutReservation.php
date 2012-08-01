@@ -68,6 +68,7 @@
 				<legend>Listed Equipment</legend>
 				<div id="equipment-checkout-wrapper">
 						<?php
+								$allItemsOK = "true";
 								$r = mysql_query($queryString);
 								$i = 0;
 								$inputHTML = '<div id="input-wrapper">'; // open 1
@@ -83,14 +84,23 @@
 										}
 										
 										$inputHTML = $inputHTML.'<input id="input_'.$equipmentID.'" class="equipment-input" type="text" onchange="validateEqID(this)"//>';
-										$equipmentHTML = $equipmentHTML.'<div id="'.$equipmentID.'" class="equipment-wrapper not-scanned"><div class="equipment">';
+										$equipmentHTML = $equipmentHTML.'<div id="'.$equipmentID.'" class="equipment-wrapper';
+										
+										if ($result['condID'] == 5){
+												$equipmentHTML .= ' broken';
+												$allItemsOK = "false";
+										}
+										else if($result['condID'] == 6){
+												$equipmentHTML .= ' missing';
+												$allItemsOK = "false";
+										}
+										else
+												$equipmentHTML .= ' not-scanned';
+												
+										$equipmentHTML .= '"><div class="equipment">';
 										$equipmentHTML = $equipmentHTML.'Equipment ID: '.$equipmentID.'<br/>';
 										$equipmentHTML = $equipmentHTML.'Model: '.$model.'<br/>';
 										$equipmentHTML = $equipmentHTML.'Notes: '.$notes.'<br/>';
-										$equipmentHTML = $equipmentHTML.'</div>';
-										$equipmentHTML = $equipmentHTML.'<div class="equipment-functions">';
-										$equipmentHTML = $equipmentHTML.'<img class="missing-item" src="../etc/grey-cross.png" width="9" height="9" title="Missing Item"/>';
-										$equipmentHTML = $equipmentHTML.'<img class="broken-item" src="../etc/wrench_icon.png" width="12" height="12" title="Broken Item"/>';
 										$equipmentHTML = $equipmentHTML.'</div></div>';
 										
 										$i++;
@@ -124,4 +134,5 @@
 		<input id="lid" type="hidden" value="<?php echo $lid; ?>"/>
 		<input id='itemID' type='hidden' value="<?php echo $id; ?>"/>
 		<input id='type' type='hidden' value="<?php echo $type; ?>"/>
+		<input id='all-items-ok' type='hidden' value="<?php echo $allItemsOK; ?>"/>
 </form>
