@@ -96,6 +96,8 @@ function validateEqID(obj){ // function to see if scanned item is displayed in t
 function submitLoan(){
 		
 		var notes = "";
+		var damagedEQ = "";
+		var missingEQ = "";
 		
 		if(!uidset || !itemidset){
 				showError("Make sure all required fields are filled.");
@@ -115,6 +117,7 @@ function submitLoan(){
 		}
 		
 		
+		
 		//make an ajax post request.
 		$('#submitWaiting').css({"display" : "inline"});
 		$.post("returnLoanFunctions.php?return=1",
@@ -122,7 +125,9 @@ function submitLoan(){
 								"itemid"     	: $("#itemid").val(),
 								"userid"    	: $("#userid").val(),
 								"notes"     	: notes,
-								"type"				:	$('#item-type').val()
+								"type"				:	$('#item-type').val(),
+								"damagedEQ"		: damagedEQ,
+								"missingEQ"		: missingEQ
 						},
 						function(response){
 								var jsonResponse = JSON.parse(response);

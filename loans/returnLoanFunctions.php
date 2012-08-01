@@ -150,8 +150,11 @@
 				$itemID = $_POST['itemid'];
 				$userid = $_POST['userid'];
 				$notes = urldecode($_POST['notes']);
+				$brokenEQ = urldecode($_POST['brokenEQ']);
+				$missingEQ = urldecode($_POST['missingEQ']);
 				$type = $_POST['type'];
 				$return_date = time();
+				
 				
 				// update loan status
 				$updateQuery = "";
@@ -188,7 +191,73 @@
 						if(mysql_errno() != 0){sqlError(mysql_errno(),mysql_error());}
 				}
 				
+				// append notes to equipment and users if there are broken or missing items
+				if($brokenEQ != "N/A"){
+						// add a broken by flag on the equipment
+						$brokenEQArray = explode(",",$brokenEQ);
+						
+						$query = "SELECT equipmentid, notes FROM equipments WHERE";
+						foreach($brokenEQArray as $key => $eqID){
+								if($key == 0)
+										$query .= " equipmentid='$eqID'";
+								else
+										$query .= " OR equipmentid='$eqID'";
+						}
+						$result = mysql_query($query);
+						if(mysql_errno() != 0){sqlError(mysql_errno(),mysql_error());}
+						while($r = mysql_fetch_assoc($result)){
+								$eqID = $r['equipmentid'];
+								$notes = $r['notes']."\n\nDamaged by $userid on: ".friendlyDateNoTime($return_date);
+								$updateQuery = "UPDATE equipments SET notes='$notes', condID=5 WHERE equipmentID='$eqID'";
+								mysql_query($updateQuery);
+								if(mysql_errno() != 0){sqlError(mysql_errno(),mysql_error());}
+						}
+						
+						// add the broken equipment to the users account
+						$query = "SELECT notes FROM users WHERE userID='$userid' AND deptID=".$_SESSION['dept'];
+						$result = mysql_query($query);
+						if(mysql_errno() != 0){sqlError(mysql_errno(),mysql_error());}
+						
+						$r = mysql_fetch_assoc($result);
+						$notes = $r['notes']."\n\n User damaged the following equipment: $brokenEQ";
+						$updateQuery = "UPDATE users SET notes='$notes' WHERE userID='$userid' AND deptID=".$_SESSION['dept'];
+						mysql_query($updateQuery);
+						if(mysql_errno() != 0){sqlError(mysql_errno(),mysql_error());}
+				}
 				
+				if ($missingEQ != "N/A"){
+						// add a broken by flag on the equipment
+						$missingEQArray = explode(",",$missingEQ);
+						$query = "SELECT equipmentid, notes FROM equipments WHERE";
+						foreach($missingEQArray as $key => $eqID){
+								if($key == 0)
+										$query .= " equipmentid='$eqID'";
+								else
+										$query .= " OR equipmentid='$eqID'";
+						}
+						$result = mysql_query($query);
+						if(mysql_errno() != 0){sqlError(mysql_errno(),mysql_error());}
+						while($r = mysql_fetch_assoc($result)){
+								$eqID = $r['equipmentid'];
+								$notes = $r['notes']."\n\n $userid lost this item on: ".friendlyDateNoTime($return_date);
+								$updateQuery = "UPDATE equipments SET notes='$notes', condID=6 WHERE equipmentID='$eqID'";
+								mysql_query($updateQuery);
+								if(mysql_errno() != 0){sqlError(mysql_errno(),mysql_error());}
+						}
+						
+						// add the broken equipment to the users account
+						$query = "SELECT notes FROM users WHERE userID='$userid' AND deptID=".$_SESSION['dept'];
+						$result = mysql_query($query);
+						if(mysql_errno() != 0){sqlError(mysql_errno(),mysql_error());}
+						
+						$r = mysql_fetch_assoc($result);
+						$notes = $r['notes']."\n\n User lost the following equipment: $missingEQ";
+						$updateQuery = "UPDATE users SET notes='$notes' WHERE userID='$userid' AND deptID=".$_SESSION['dept'];
+						mysql_query($updateQuery);
+						if(mysql_errno() != 0){sqlError(mysql_errno(),mysql_error());}
+				}
+				
+
 				$response['status'] = 0;
 				$response['message'] = $type." returned.";
 				echo json_encode($response);

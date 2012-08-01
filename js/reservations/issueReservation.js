@@ -74,7 +74,7 @@ $(document).ready(function(){
 		});
 		
 		$('#reset').click(function(){
-				window.location = "http://art.usc.edu/loaner/reservations/issueKit.php";
+				window.location.reload();
 		});
 });
 

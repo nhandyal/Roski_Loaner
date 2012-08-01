@@ -139,10 +139,10 @@ function validateEqID(obj){ // function to see if scanned item is displayed in t
 }
 
 function submitLoan(){
+		var confirmSubmit = false;
 		
 		if($('#all-items-ok').val() == 'false'){
-				showError("There are items in this loan that cannot be checked out due to there condition. You must edit the condition of the items before you can check them out.");
-				return false;
+				confirmSubmit = confirm("There are items in this kit that are damaged or missing, do you still want to issue the loan?");
 		}
 		
 		var notes = "";
@@ -172,27 +172,29 @@ function submitLoan(){
 		
 		
 		//make an ajax post request.
-		$('#submitWaiting').css({"display" : "inline"});
-		$.post("issueLoanFunctions.php?issue=1",
-						{    
-								"itemid"     	: $("#itemid").val(),
-								"userid"    	: $("#userid").val(),
-								"notes"     	: notes,
-								"loan_length"	: $("#loan_length").val(),
-								"type"				:	$("#item-type option:selected").val(),
-								"loan_type"		: $("#loan-type option:selected").val()
-						},
-						function(response){
-								var jsonResponse = JSON.parse(response);
-								if(jsonResponse.status == 0){
-										$('#submitWaiting').css({"display" : "none"});
-										alert(jsonResponse.message);
-										window.location = "http://art.usc.edu/loaner/loans";
+		if(confirmSubmit){
+				$('#submitWaiting').css({"display" : "inline"});
+				$.post("issueLoanFunctions.php?issue=1",
+								{    
+										"itemid"     	: $("#itemid").val(),
+										"userid"    	: $("#userid").val(),
+										"notes"     	: notes,
+										"loan_length"	: $("#loan_length").val(),
+										"type"				:	$("#item-type option:selected").val(),
+										"loan_type"		: $("#loan-type option:selected").val()
+								},
+								function(response){
+										var jsonResponse = JSON.parse(response);
+										if(jsonResponse.status == 0){
+												$('#submitWaiting').css({"display" : "none"});
+												alert(jsonResponse.message);
+												window.location = "http://art.usc.edu/loaner/loans";
+										}
+										else{
+												showError(jsonResponse.message);
+												$('#submitWaiting').css({"display" : "none"});
+										}
 								}
-								else{
-										showError(jsonResponse.message);
-										$('#submitWaiting').css({"display" : "none"});
-								}
-						}
-		);//end of Ajax Post Request
+				);//end of Ajax Post Request
+		}
 }

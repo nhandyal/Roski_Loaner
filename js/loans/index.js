@@ -91,11 +91,15 @@ function validateReturnSubmit(){
 				returnSubmit();
 		}
 		else{
-				alert("Please verify all items have been scanned");
+				returnSubmit();
+				//alert("Please verify all items have been scanned");
 		}
 }
 
 function returnSubmit(){
+		var confirmReturn = true;
+		
+		// return loan preprocessing
 		var notes = "";
 		
 		if($('#notes').val() == ""){
@@ -105,27 +109,57 @@ function returnSubmit(){
 				notes = $('#notes').val();
 		}
 		
-		$('#submitWaiting').css({"display" : "inline"});
-		$.post('returnLoanFunctions.php?return=true',
-						{    
-								"itemid"		  : $("#itemid").val(),
-								"userid"    	: $("#userid").val(),
-								"notes"     	: notes,
-								"type"				: $('#item-type').val()
-						},
-						function(response){
-								var jsonResponse = JSON.parse(response);
-								if(jsonResponse.status == 0){
-										$('#submitWaiting').css({"display" : "none"});
-										alert(jsonResponse.message);
-										window.location = "http://art.usc.edu/loaner/loans";
+		// generate a comma seperated list of broken and missing equipment
+		 var brokenEQ = $('.broken').map(function() {
+												return $(this).attr("id");
+										}).get().join(',');
+		 
+		 var missingEQ = $('.missing').map(function() {
+												return $(this).attr("id");
+										}).get().join(',');
+		 
+		 // set the broken and missing variables to N/A if there are no broken or missing equipment
+		 if (brokenEQ == ""){
+				brokenEQ = "N/A";
+		 }
+		 
+		 if (missingEQ == ""){
+				missingEQ = "N/A";
+		 }
+		 
+		 // notify the user if they are submitting a loan with broken / missing equipment
+		 if (brokenEQ != "N/A" || missingEQ != "N/A")
+				confirmReturn = confirm("You have indicated that there are broken or missing items. Are you sure this is correct?");
+		 
+		if (confirmReturn)
+				console.log("returning loan");
+		
+		
+		if(confirmReturn){
+				$('#submitWaiting').css({"display" : "inline"});
+				$.post('returnLoanFunctions.php?return=true',
+								{    
+										"itemid"		  : $("#itemid").val(),
+										"userid"    	: $("#userid").val(),
+										"notes"     	: notes,
+										"type"				: $('#item-type').val(),
+										"brokenEQ"		: brokenEQ,
+										"missingEQ"		: missingEQ
+								},
+								function(response){
+										var jsonResponse = JSON.parse(response);
+										if(jsonResponse.status == 0){
+												$('#submitWaiting').css({"display" : "none"});
+												alert(jsonResponse.message);
+												window.location = "http://art.usc.edu/loaner/loans";
+										}
+										else{
+												$('#submitWaiting').css({"display" : "none"});
+												alert(jsonResponse.message);
+										}
 								}
-								else{
-										$('#submitWaiting').css({"display" : "none"});
-										alert(jsonResponse.message);
-								}
-						}
-		);//end of Ajax Post Request
+				);//end of Ajax Post Request
+		}
 }
 
 function  missingItem(callingObj){
