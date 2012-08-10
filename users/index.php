@@ -2,7 +2,6 @@
 		$page_title = "Users";
 		$default_sort_field = "userid";
 		$current_page = "index.php";
-		$displayableRows = 25;
 		require_once("../includes/session.php");
 		require_once("../includes/headerOpen.php"); //opens the head tag
 ?>

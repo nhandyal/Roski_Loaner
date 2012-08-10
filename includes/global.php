@@ -5,6 +5,7 @@ ini_set('display_errors', '1');
 date_default_timezone_set('America/Los_Angeles');
 $current_time = time(); //unix timestamp
 $admin_email = "andrekel@usc.edu";
+$displayableRows = 50;
 
 function friendlyDate($date){
 		if($date == 0){

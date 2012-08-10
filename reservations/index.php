@@ -2,7 +2,6 @@
 	$page_title = "Reservations";
 	$default_sort_field = "issue_date";
 	$current_page = "index.php";
-	$displayableRows = 25;
 	$view;
 		if(isset($_GET['view']))
 				$view = $_GET['view'];
