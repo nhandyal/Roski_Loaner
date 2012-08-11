@@ -91,8 +91,7 @@ function validateReturnSubmit(){
 				returnSubmit();
 		}
 		else{
-				returnSubmit();
-				//alert("Please verify all items have been scanned");
+				alert("Please verify all items have been scanned");
 		}
 }
 
@@ -164,20 +163,32 @@ function returnSubmit(){
 
 function  missingItem(callingObj){
 		var equipmentWrapper = $(callingObj).parent().parent();
+		var status = $(equipmentWrapper).find(".status .details-content");
 		if($(equipmentWrapper).hasClass("missing")){
-				$(equipmentWrapper).removeClass("missing").addClass("not-scanned");
+				var originalCondition = $(equipmentWrapper).find(".original-condition").val();
+				$(status).text(originalCondition);
+				$(equipmentWrapper).removeClass("missing");
+				if(!$(equipmentWrapper).hasClass("scanned"))
+						$(equipmentWrapper).addClass("not-scanned");
 		}
 		else{
-				$(equipmentWrapper).removeClass("not-scanned scanned broken").addClass("missing");
+				$(status).text("Missing");
+				$(equipmentWrapper).removeClass("broken").removeClass("not-scanned").addClass("missing");
 		}
 }
 
 function brokenItem(callingObj){
 		var equipmentWrapper = $(callingObj).parent().parent();
+		var status = $(equipmentWrapper).find(".status .details-content");
 		if($(equipmentWrapper).hasClass("broken")){
-				$(equipmentWrapper).removeClass("broken").addClass("not-scanned");
+				var originalCondition = $(equipmentWrapper).find(".original-condition").val();
+				$(status).text(originalCondition);
+				$(equipmentWrapper).removeClass("broken");
+				if(!$(equipmentWrapper).hasClass("scanned"))
+						$(equipmentWrapper).addClass("not-scanned");
 		}
 		else{
-				$(equipmentWrapper).removeClass("not-scanned missing").addClass("broken");
+				$(status).text("Damaged");
+				$(equipmentWrapper).removeClass("missing").addClass("broken");
 		}
 }
