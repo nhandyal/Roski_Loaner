@@ -82,15 +82,49 @@
 										}
 										
 										$inputHTML = $inputHTML.'<input id="input_'.$equipmentID.'" class="equipment-input" type="text" onchange="validateEqID(this)"//>';
-										$equipmentHTML = $equipmentHTML.'<div id="'.$equipmentID.'" class="equipment-wrapper not-scanned"><div class="equipment">';
-										$equipmentHTML = $equipmentHTML.'Equipment ID: '.$equipmentID.'<br/>';
-										$equipmentHTML = $equipmentHTML.'Model: '.$model.'<br/>';
-										$equipmentHTML = $equipmentHTML.'Notes: '.$notes.'<br/>';
-										$equipmentHTML = $equipmentHTML.'</div>';
-										$equipmentHTML = $equipmentHTML.'<div class="equipment-functions">';
-										$equipmentHTML = $equipmentHTML.'<img class="missing-item" src="../etc/grey-cross.png" width="9" height="9" title="Missing Item"/>';
-										$equipmentHTML = $equipmentHTML.'<img class="broken-item" src="../etc/wrench_icon.png" width="12" height="12" title="Broken Item"/>';
-										$equipmentHTML = $equipmentHTML.'</div></div>';
+										$equipmentHTML = $equipmentHTML.'<div id="'.$equipmentID.'" class="equipment-wrapper';
+										if($result['condID'] == 5){
+												//broken item
+												$equipmentHTML .=' not-scanned broken-notify">';
+										}
+										else if($result['condID'] == 6){
+												//missing item
+												$equipmentHTML .=' missing-notify">';
+										}
+										else{
+												//  valid item
+												$equipmentHTML .=' not-scanned">';
+										}
+										$equipmentHTML .= '<div class="equipment">';
+										$equipmentHTML = $equipmentHTML.'<div><p class="details-title" style="width:40%">Equipment ID:</p><p class="details-content" style="width:60%">'.$equipmentID.'</p><div class="clear"></div></div>';
+										$equipmentHTML = $equipmentHTML.'<div><p class="details-title">Model:</p><p class="details-content">'.$model.'</p><div class="clear"></div></div>';
+										
+										if($result['condID'] == 5){
+												$equipmentHTML = $equipmentHTML.'<div class="status"><p class="details-title">Status:</p><p class="details-content" style="color:white">Damaged</p><div class="clear"></div></div>';
+												//$equipmentHTML = $equipmentHTML.'<div class="notes"><p class="details-title">Notes:</p><p class="details-content">'.$notes.'</p><div class="clear"></div></div>';
+												$equipmentHTML = $equipmentHTML.'<input type="hidden" class="original-condition" value="Damaged"/></div>';
+												// broken item can only be marked as missing
+												$equipmentHTML = $equipmentHTML.'<div class="equipment-functions">';
+												$equipmentHTML = $equipmentHTML.'<img class="missing-item" src="../etc/grey-cross.png" width="9" height="9" title="Missing Item"/>';
+												$equipmentHTML = $equipmentHTML.'</div></div>';
+										}
+										else if($result['condID'] == 6){
+												// item is missing, it cannot be marked as broken or missing
+												$equipmentHTML = $equipmentHTML.'<div class="status"><p class="details-title">Status:</p><p class="details-content" style="color:white">Missing</p><div class="clear"></div></div>';
+												//$equipmentHTML = $equipmentHTML.'<div class="notes"><p class="details-title">Notes:</p><p class="details-content">'.$notes.'</p><div class="clear"></div></div>';
+												$equipmentHTML = $equipmentHTML.'<input type="hidden" class="original-condition" value="Missing"/></div>';
+												$equipmentHTML = $equipmentHTML.'<div class="equipment-functions"></div></div>';
+										}
+										else{
+												$equipmentHTML = $equipmentHTML.'<div class="status"><p class="details-title">Status:</p><p class="details-content" style="color:white">Good</p><div class="clear"></div></div>';
+												//$equipmentHTML = $equipmentHTML.'<div class="notes"><p class="details-title">Notes:</p><p class="details-content">'.$notes.'</p><div class="clear"></div></div>';
+												$equipmentHTML = $equipmentHTML.'<input type="hidden" class="original-condition" value="Good"/></div>';
+												// item is a valid loan item
+												$equipmentHTML = $equipmentHTML.'<div class="equipment-functions">';
+												$equipmentHTML = $equipmentHTML.'<img class="missing-item" src="../etc/grey-cross.png" width="9" height="9" title="Missing Item"/>';
+												$equipmentHTML = $equipmentHTML.'<img class="broken-item" src="../etc/wrench_icon.png" width="12" height="12" title="Broken Item"/>';
+												$equipmentHTML = $equipmentHTML.'</div></div>';
+										}
 										
 										$i++;
 										

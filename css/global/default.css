@@ -87,14 +87,6 @@ a{
 	opacity: .8;
 }
 
-.not_scanned{
-	background-color:#f96;
-}
-
-.scanned{
-	background-color:#ff9;
-}
-
 .required {
 	color: red;
 }
@@ -545,6 +537,7 @@ input:focus, textarea:focus {
 		margin-left:1%;
 		border: 2px solid;
 		border-color: transparent;
+		background: rgb(85,144,216);
 }
 .equipment{
 		width:93%;
@@ -563,14 +556,28 @@ input:focus, textarea:focus {
 		cursor: pointer;
 }
 .not-scanned{
-		background: rgb(215,81,75);
+		background: rgb(85,144,216);
 }
 .scanned{
-		background: rgb(161,214,86);
+		background: rgb(161,214,86) !important;
 }
 .broken{
 		background: rgb(247,162,72);
 }
 .missing{
+		background: red !important;
+}
+.broken-notify{
+		background: rgb(247,162,72);
+}
+.missing-notify{
 		background: red;
+}
+.details-title{
+		float:left;
+		width:20%;
+}
+.details-content{
+		float:left;
+		width:80%;
 }

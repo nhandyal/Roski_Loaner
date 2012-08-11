@@ -247,7 +247,7 @@
 												Notes
 										</div>
 										<div class='pf-content-float'>
-												<?php echo "<pre>".$notes."</pre>"; ?>
+												<?php echo str_replace("\n","<br/>",$notes); ?>
 										</div>
 										<div class='clear'></div>
 						</div>

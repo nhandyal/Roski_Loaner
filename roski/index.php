@@ -12,7 +12,6 @@
 		<h3 class="ui-widget-header">Login</h3>
 		<form name="login" action="login.php" method="post">
 			<dl class="ui-content">
-				<dd><div class="error"><?php showError(); ?></div></dd>
 				<dt>Username</dt>
 				<dd><input type="text" name="username" id="username"/></dd>
 				<dt>Password</dt>

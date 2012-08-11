@@ -37,7 +37,7 @@ $(document).ready(function(){
 		});
 		
 		$('#submit').click(function(){
-				submitLoan();
+				returnLoan();
 		});
 		
 		$('#reset').click(function(){
@@ -93,11 +93,10 @@ function validateEqID(obj){ // function to see if scanned item is displayed in t
 		}
 }
 
-function submitLoan(){
-		
+function returnLoan(){
+		var confirmReturn = true;
 		var notes = "";
-		var damagedEQ = "";
-		var missingEQ = "";
+		
 		
 		if(!uidset || !itemidset){
 				showError("Make sure all required fields are filled.");
@@ -110,56 +109,93 @@ function submitLoan(){
 		}
 		
 		if($('#notes').val() == ""){
-				notes = "None";
+				notes = "+";
 		}
 		else{
 				notes = $('#notes').val();
 		}
 		
 		
+		// generate a comma seperated list of broken and missing equipment
+		 var brokenEQ = $('.broken').map(function() {
+												return $(this).attr("id");
+										}).get().join(',');
+		 
+		 var missingEQ = $('.missing').map(function() {
+												return $(this).attr("id");
+										}).get().join(',');
+		 
+		 // set the broken and missing variables to N/A if there are no broken or missing equipment
+		 if (brokenEQ == ""){
+				brokenEQ = "N/A";
+		 }
+		 
+		 if (missingEQ == ""){
+				missingEQ = "N/A";
+		 }
+		 
+		 // notify the user if they are submitting a loan with broken / missing equipment
+		 if (brokenEQ != "N/A" || missingEQ != "N/A")
+				confirmReturn = confirm("You have indicated that there are broken or missing items. Are you sure this is correct?");
+		 
+		
 		
 		//make an ajax post request.
-		$('#submitWaiting').css({"display" : "inline"});
-		$.post("returnLoanFunctions.php?return=1",
-						{    
-								"itemid"     	: $("#itemid").val(),
-								"userid"    	: $("#userid").val(),
-								"notes"     	: notes,
-								"type"				:	$('#item-type').val(),
-								"damagedEQ"		: damagedEQ,
-								"missingEQ"		: missingEQ
-						},
-						function(response){
-								var jsonResponse = JSON.parse(response);
-								if(jsonResponse.status == 0){
-										$('#submitWaiting').css({"display" : "none"});
-										alert(jsonResponse.message);
-										window.location = "http://art.usc.edu/loaner/loans";
+		if(confirmReturn){
+				$('#submitWaiting').css({"display" : "inline"});
+				$.post("returnLoanFunctions.php?return=1",
+								{    
+										"itemid"     	: $("#itemid").val(),
+										"userid"    	: $("#userid").val(),
+										"notes"     	: notes,
+										"type"				:	$('#item-type').val(),
+										"brokenEQ"		: brokenEQ,
+										"missingEQ"		: missingEQ
+								},
+								function(response){
+										var jsonResponse = JSON.parse(response);
+										if(jsonResponse.status == 0){
+												$('#submitWaiting').css({"display" : "none"});
+												alert(jsonResponse.message);
+												window.location = "http://art.usc.edu/loaner/loans";
+										}
+										else{
+												showError(jsonResponse.message);
+												$('#submitWaiting').css({"display" : "none"});
+										}
 								}
-								else{
-										showError(jsonResponse.message);
-										$('#submitWaiting').css({"display" : "none"});
-								}
-						}
-		);//end of Ajax Post Request
+				);//end of Ajax Post Request
+		}
 }
 
 function  missingItem(callingObj){
 		var equipmentWrapper = $(callingObj).parent().parent();
+		var status = $(equipmentWrapper).find(".status .details-content");
 		if($(equipmentWrapper).hasClass("missing")){
-				$(equipmentWrapper).removeClass("missing").addClass("not-scanned");
+				var originalCondition = $(equipmentWrapper).find(".original-condition").val();
+				$(status).text(originalCondition);
+				$(equipmentWrapper).removeClass("missing");
+				if(!$(equipmentWrapper).hasClass("scanned"))
+						$(equipmentWrapper).addClass("not-scanned");
 		}
 		else{
-				$(equipmentWrapper).removeClass("not-scanned scanned broken").addClass("missing");
+				$(status).text("Missing");
+				$(equipmentWrapper).removeClass("broken").removeClass("not-scanned").addClass("missing");
 		}
 }
 
 function brokenItem(callingObj){
 		var equipmentWrapper = $(callingObj).parent().parent();
+		var status = $(equipmentWrapper).find(".status .details-content");
 		if($(equipmentWrapper).hasClass("broken")){
-				$(equipmentWrapper).removeClass("broken").addClass("not-scanned");
+				var originalCondition = $(equipmentWrapper).find(".original-condition").val();
+				$(status).text(originalCondition);
+				$(equipmentWrapper).removeClass("broken");
+				if(!$(equipmentWrapper).hasClass("scanned"))
+						$(equipmentWrapper).addClass("not-scanned");
 		}
 		else{
-				$(equipmentWrapper).removeClass("not-scanned missing").addClass("broken");
+				$(status).text("Damaged");
+				$(equipmentWrapper).removeClass("missing").addClass("broken");
 		}
 }
