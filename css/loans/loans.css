@@ -4,3 +4,35 @@
 .details-content{
 		width: 75%;
 }
+.remove-item{
+		display: inline-block;
+		width: 16px;
+		height: 16px;
+		background: url("../../etc/cross.png");
+		background-repeat: no-repeat;
+		float: right;
+		margin-top: 2px;
+		margin-right: 15px;
+}
+.remove-item:hover{
+		cursor: pointer;
+}
+#form-controls{
+		width:35%;
+		margin: auto;
+		margin-top: 10px;
+}
+.form-button{
+		-webkit-appearance: button;
+		-webkit-user-select: none;
+		-moz-appearance: button;
+		-moz-user-select: none; 		
+		display: inline-block;
+		width:100px;
+		line-height: 28px;
+		text-align: center;
+		margin-left: 15px;
+}
+.form-button:hover{
+		cursor: pointer;
+}
