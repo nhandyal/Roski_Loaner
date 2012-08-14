@@ -1,8 +1,19 @@
+fieldset{
+		margin-bottom: 15px;
+}
+.loan-item-template{
+		display: none;
+}
 .details-title{
 		width: 25%;
 }
 .details-content{
 		width: 75%;
+}
+.hidden-elements{
+		display: none;
+		border-bottom: 2px solid;
+		margin-bottom: 20px;
 }
 .remove-item{
 		display: inline-block;

@@ -149,8 +149,12 @@ function returnSubmit(){
 										var jsonResponse = JSON.parse(response);
 										if(jsonResponse.status == 0){
 												$('#submitWaiting').css({"display" : "none"});
-												alert(jsonResponse.message);
-												window.location = "http://art.usc.edu/loaner/loans";
+												var htmlContent = "<div style='width:300px; line-height:50px; text-align:center; font-size:18px; font-weight:bold;'>"+jsonResponse.message+"</div>";
+												$.fancybox({	
+														'centerOnScroll'	: true, 
+														'content'					: htmlContent,
+														'onClosed'				: function(){window.location.reload();}
+												});
 										}
 										else{
 												$('#submitWaiting').css({"display" : "none"});
