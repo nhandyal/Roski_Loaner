@@ -166,6 +166,7 @@
 																				if($admin || $_SESSION['role'] == 2) {
 																		?>
 																						<a href="javascript:deleteAccount('<?php echo $user['userid']; ?>')" class="delete" title="Delete"><img src='../etc/delete.png' /></a>
+																						<a href="<?php echo "http://art.usc.edu/loaner/loans/issueLoan.php?userid=".$user['userid']; ?>" class="issue" title="Issue Loan"><img src='../etc/add.png' /></a>
 																		<?php
 																				}
 																		?>

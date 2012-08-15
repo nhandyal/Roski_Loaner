@@ -4,6 +4,15 @@ $(document).ready(function(){
 		// give focus to the userid element
 		$("#userid").focus().change(function(){validateUID()});
 		
+		
+		// check to see if get user id variable is posted, if it is verify it and continue
+		var urlVars = getUrlVars();
+		if(urlVars['userid'] != undefined){
+				// verify the userid
+				$("#userid").val(urlVars['userid']);
+				validateUID();
+		}
+		
 		// add event listeners
 		$("#add-item").click(function(){addItem();});
 		$("#submit-loan").click(function(){submitLoan();});
@@ -216,4 +225,12 @@ function removeItem(callingObj){
 						i++;
 				});
 		});
+}
+
+function getUrlVars() {
+		var vars = {};
+		var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+				vars[key] = value;
+		});
+		return vars;
 }
