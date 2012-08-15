@@ -33,3 +33,18 @@
 .filler{
 		width:90%;
 }
+
+.form-button{
+		-webkit-appearance: button;
+		-webkit-user-select: none;
+		-moz-appearance: button;
+		-moz-user-select: none; 		
+		display: inline-block;
+		width:100px;
+		line-height: 28px;
+		text-align: center;
+		margin-left: 15px;
+}
+.form-button:hover{
+		cursor: pointer;
+}

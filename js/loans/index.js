@@ -196,3 +196,40 @@ function brokenItem(callingObj){
 				$(equipmentWrapper).removeClass("missing").addClass("broken");
 		}
 }
+
+function editFine(loanID, currentFine){
+		var htmlContent = "<div style='padding:7px 20px; width:400px'>";
+		htmlContent += "<div style='margin-bottom:7px; width:100%; text-align:center; font-size:12px; font-weight:bold; border-bottom:1px solid;'>Edit Fine</div>";
+		htmlContent += "<div class='pf-element' style='padding-bottom:5px'><div class='pf-description-float'>Current Fine</div><div class='pf-content-float'>$"+currentFine+"</div><div class='clear'></div></div>";
+		htmlContent += "<div class='pf-element' style='padding-bottom:5px; border-bottom:1px solid;'><div class='pf-description-float'>New Fine</div><div class='pf-content-float'><input class='pf-text-input' id='new-fine' type='text' name='new-fine' /></div><div class='clear'></div></div>";
+		htmlContent += "<div style='width:110px; margin:auto; margin-top: 5px;'><div class='form-button' onclick='submitEditFine()'>Submit</div></div>";
+		htmlContent += "<input type='hidden' id='fb-loanID' value='"+loanID+"' /><input type='hidden' id='fb-currentFine' value='"+currentFine+"' />";
+		htmlContent += "</div>";
+		$.fancybox({	
+				'centerOnScroll'	: true, 
+				'content'					: htmlContent
+		});
+}
+
+function submitEditFine(){
+		var newFine = parseInt($("#new-fine").val());
+		if(!isNaN(newFine) && newFine >= 0){
+				// new fine is valid
+				$.get("editLoanFunctions.php",
+						{
+								"loanID"		: $('#fb-loanID').val(),
+								"newFine"		: newFine
+						},
+						function(response){
+								var jsonResponse = JSON.parse(response);
+								if(jsonResponse.status == 0){
+										window.location.reload();
+								}
+								else{
+										$.fancybox.close();
+										showError("jsonResponse.message");
+								}
+						}
+				);
+		}
+}

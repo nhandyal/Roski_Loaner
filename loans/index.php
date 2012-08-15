@@ -131,6 +131,11 @@
 														<a href="javascript:returnLoan(<?php echo $e['lid']; ?>)" title='Return Loan' ><img src='../etc/cross.png' /></a>
 										<?php
 												}
+												else if($view == "archive" && ($_SESSION['role'] == 2 || $_SESSION['role'] == 3 || $_SESSION['role'] == 5)){
+										?>
+														<a href="javascript:editFine(<?php echo $e['lid'].",".$e['fine']; ?>)" title='Edit fine' ><img src='../etc/edit.png' /></a>
+										<?php
+												}
 										?>
 										</td>
 								</tr>

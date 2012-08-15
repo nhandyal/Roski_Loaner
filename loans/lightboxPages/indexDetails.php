@@ -150,12 +150,13 @@
 								</div>
 						</div>
 						<div class="pf-element">
-								<div class='pf-description'>		
+								<div class='pf-description-float'>		
 										Notes:  
 								</div>
-								<div class='pf-content'>
-										<?php echo $r['notes'] ?>	
+								<div class='pf-content-float'>
+										<?php echo str_replace("\n","<br/>",$r['notes']); ?>
 								</div>
+								<div class='clear'></div>
 						</div>
 				</fieldset>
 				<br />
