@@ -225,20 +225,30 @@
 						
 						$includedEquipment[$i] = $equipmentID;
 						
-						$inputHTML = $inputHTML.'<input id="input_'.$equipmentID.'" class="equipment-input" type="text" onchange="validateEqID(this)"//>';
-						$equipmentHTML = $equipmentHTML.'<div id="'.$equipmentID.'" class="equipment-wrapper';
-						if($result['condID'] == 5){
-								//broken item
-								$equipmentHTML .=' not-scanned broken-notify">';
+						switch($_GET['type']){
+								case "Kit":
+										$inputHTML = $inputHTML.'<input id="input_'.$equipmentID.'" class="equipment-input" type="text" onchange="validateEqID(this)"/>';
+										$equipmentHTML = $equipmentHTML.'<div id="'.$equipmentID.'" class="equipment-wrapper';
+										if($result['condID'] == 5){
+												//broken item
+												$equipmentHTML .=' not-scanned broken-notify">';
+										}
+										else if($result['condID'] == 6){
+												//missing item
+												$equipmentHTML .=' missing-notify">';
+										}
+										else{
+												//  valid item
+												$equipmentHTML .=' not-scanned">';
+										}
+										break;
+								case "Equipment":
+										$inputHTML = $inputHTML.'<input id="input_'.$equipmentID.'" class="equipment-input readonly" readonly="readonly" type="text" value="'.$equipmentID.'"/>';
+										$equipmentHTML = $equipmentHTML.'<div id="'.$equipmentID.'" class="equipment-wrapper scanned" >';
+										break;
 						}
-						else if($result['condID'] == 6){
-								//missing item
-								$equipmentHTML .=' missing-notify">';
-						}
-						else{
-								//  valid item
-								$equipmentHTML .=' not-scanned">';
-						}
+						
+
 						$equipmentHTML .= '<div class="equipment" style="width:100%">';
 						$equipmentHTML = $equipmentHTML.'<div><p class="details-title" style="width:40%">Equipment ID:</p><p class="details-content" style="width:60%">'.$equipmentID.'</p><div class="clear"></div></div>';
 						$equipmentHTML = $equipmentHTML.'<div><p class="details-title">Model:</p><p class="details-content">'.$model.'</p><div class="clear"></div></div>';
