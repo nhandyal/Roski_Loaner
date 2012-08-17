@@ -17,21 +17,32 @@
 						echo json_encode($response);
 						exit(0);
 				}
-				else{
-						$query = "UPDATE equipments SET
-								status = -1
-								WHERE equipmentid = '$eid'";
-						mysql_query($query);
-		
-						if(mysql_affected_rows() == 1){
-								$response["status"] = 0;
-								$response["message"] = "Item deactivated";
+				
+				// Check if item is part of a kit that is currently on loan or reserved
+				$query = "SELECT kitid FROM equipments WHERE equipmentid='$eid'";
+				$r = mysql_fetch_assoc(mysql_query($query));
+				if($r['kitid'] != ""){
+						$query = "SELECT status FROM loans WHERE kitid='".$r['kitid']."' AND status<>4 AND status<>6";
+						if(mysql_num_rows(mysql_query($query)) != 0){
+								$response["status"] = 1;
+								$response["message"] = "Item cannot be deactivated. Parent kit: ".$r['kitid']." is currently on loan or reserved";
 								echo json_encode($response);
 								exit(0);
 						}
-						
-						if(mysql_errno() != 0){sqlError(mysql_errno(),mysql_error());}
 				}
+				
+				$insertQuery = "INSERT INTO inactiveEquipment SELECT equipments.* FROM equipments WHERE equipmentid='$eid'";
+				$deleteQuery = "DELETE FROM equipments WHERE equipmentid='$eid'";
+				mysql_query($insertQuery);
+				if(mysql_errno() != 0){sqlError(mysql_errno(),mysql_error());}
+				mysql_query($deleteQuery);
+				if(mysql_errno() != 0){sqlError(mysql_errno(),mysql_error());}
+
+				
+				$response["status"] = 0;
+				$response["message"] = "Item deactivated";
+				echo json_encode($response);
+				exit(0);
 		}
 		
 		// Validate Kit ID
@@ -64,7 +75,6 @@
 				$equipSubCatID	= urldecode($_POST['equipSubCatID']);
 				$condID		= urldecode($_POST['cond']);
 				$locationID	= urldecode($_POST['location']);
-				$owner = urldecode($_POST['owner']);
 				$deptID		= $_SESSION['dept'];
 				$desc 		= urldecode($_POST['desc']);
 				$notes 		= urldecode($_POST['notes']);

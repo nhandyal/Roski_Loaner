@@ -2,7 +2,6 @@
 		$page_title = "Users";
 		$default_sort_field = "userid";
 		$current_page = "index.php";
-		$displayableRows = 25;
 		require_once("../includes/session.php");
 		require_once("../includes/headerOpen.php"); //opens the head tag
 ?>
@@ -167,6 +166,7 @@
 																				if($admin || $_SESSION['role'] == 2) {
 																		?>
 																						<a href="javascript:deleteAccount('<?php echo $user['userid']; ?>')" class="delete" title="Delete"><img src='../etc/delete.png' /></a>
+																						<a href="<?php echo "http://art.usc.edu/loaner/loans/issueLoan.php?userid=".$user['userid']; ?>" class="issue" title="Issue Loan"><img src='../etc/add.png' /></a>
 																		<?php
 																				}
 																		?>

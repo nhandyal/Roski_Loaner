@@ -23,6 +23,7 @@
 				else{
 						$res = mysql_fetch_assoc($result);
 						$admin = ($_SESSION['role'] == 3 || $_SESSION['role'] == 5);
+						$notes = $res['notes'];
 				}
 		?>
 		<form class="createForm">
@@ -243,10 +244,10 @@
 						</div>
 						<div class="pf-element">
 								<div class='pf-description-float'>
-												Notes:
+												Notes
 										</div>
 										<div class='pf-content-float'>
-												<?php echo $res['notes']; ?>
+												<?php echo str_replace("\n","<br/>",$notes); ?>
 										</div>
 										<div class='clear'></div>
 						</div>

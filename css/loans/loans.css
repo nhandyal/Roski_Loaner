@@ -1,38 +1,49 @@
-.readonly{
-		border:2px solid !important;
-		border-color:white !important;
+fieldset{
+		margin-bottom: 15px;
 }
-.readonly:focus{
-		border:2px solid !important;
-		border-color:white !important;
+.loan-item-template{
+		display: none;
 }
-#equipment-checkout-wrapper{
-		width:90%;
+.details-title{
+		width: 25%;
 }
-
-.holder{
-		margin-bottom:10px;
+.details-content{
+		width: 75%;
 }
-
-#equipment-wrapper{
-		margin-top:20px;
+.hidden-elements{
+		display: none;
+		border-bottom: 2px solid;
+		margin-bottom: 20px;
 }
-
-.equipment-input{
-		width:23%;
-		margin-left:1%;
+.remove-item{
+		display: inline-block;
+		width: 16px;
+		height: 16px;
+		background: url("../../etc/cross.png");
+		background-repeat: no-repeat;
+		float: right;
+		margin-top: 2px;
+		margin-right: 15px;
 }
-
-.equipment{
-		float:left;
-		width:24%;
-		margin-left:1%;
+.remove-item:hover{
+		cursor: pointer;
 }
-
-.not-scanned{
-		background: rgb(215,81,75);
+#form-controls{
+		width:35%;
+		margin: auto;
+		margin-top: 10px;
 }
-
-.scanned{
-		background: rgb(161,214,86);
+.form-button{
+		-webkit-appearance: button;
+		-webkit-user-select: none;
+		-moz-appearance: button;
+		-moz-user-select: none; 		
+		display: inline-block;
+		width:100px;
+		line-height: 28px;
+		text-align: center;
+		margin-left: 15px;
+}
+.form-button:hover{
+		cursor: pointer;
 }

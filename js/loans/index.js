@@ -35,15 +35,22 @@ function returnLoan(loanID){
 		$.fancybox.showActivity();
 		$.get(targetURL,function(response){
 				$.fancybox({
-								'autoDimensions'	: false,
-								'centerOnScroll'	: true, 
-								'width'						: 1100,
-								'height'					: 618,
-								'content'					: response,
-								'onComplete'			: function(){fancyBoxResize()}
-						});		
-				}
-		);
+						'autoDimensions'	: false,
+						'centerOnScroll'	: true, 
+						'width'			: 1100,
+						'height'		: 618,
+						'content'		: response,
+						'onComplete'		: function(){fancyBoxResize()}
+				});
+				
+				// Add event listeners
+				$(".missing-item").click(function(){
+						missingItem(this);
+				});
+				$('.broken-item').click(function(){
+						brokenItem(this);		
+				});
+		});
 }
 
 function renew(loanID, view){
@@ -89,6 +96,9 @@ function validateReturnSubmit(){
 }
 
 function returnSubmit(){
+		var confirmReturn = true;
+		
+		// return loan preprocessing
 		var notes = "";
 		
 		if($('#notes').val() == ""){
@@ -98,25 +108,128 @@ function returnSubmit(){
 				notes = $('#notes').val();
 		}
 		
-		$('#submitWaiting').css({"display" : "inline"});
-		$.post('returnLoanFunctions.php?return=true',
-						{    
-								"itemid"		  : $("#itemid").val(),
-								"userid"    	: $("#userid").val(),
-								"notes"     	: notes,
-								"type"				: $('#item-type').val()
+		// generate a comma seperated list of broken and missing equipment
+		 var brokenEQ = $('.broken').map(function() {
+												return $(this).attr("id");
+										}).get().join(',');
+		 
+		 var missingEQ = $('.missing').map(function() {
+												return $(this).attr("id");
+										}).get().join(',');
+		 
+		 // set the broken and missing variables to N/A if there are no broken or missing equipment
+		 if (brokenEQ == ""){
+				brokenEQ = "N/A";
+		 }
+		 
+		 if (missingEQ == ""){
+				missingEQ = "N/A";
+		 }
+		 
+		 // notify the user if they are submitting a loan with broken / missing equipment
+		 if (brokenEQ != "N/A" || missingEQ != "N/A")
+				confirmReturn = confirm("You have indicated that there are broken or missing items. Are you sure this is correct?");
+		 
+		if (confirmReturn)
+				console.log("returning loan");
+		
+		
+		if(confirmReturn){
+				$('#submitWaiting').css({"display" : "inline"});
+				$.post('returnLoanFunctions.php?return=true',
+								{    
+										"itemid"		  : $("#itemid").val(),
+										"userid"    	: $("#userid").val(),
+										"notes"     	: notes,
+										"type"				: $('#item-type').val(),
+										"brokenEQ"		: brokenEQ,
+										"missingEQ"		: missingEQ
+								},
+								function(response){
+										var jsonResponse = JSON.parse(response);
+										if(jsonResponse.status == 0){
+												$('#submitWaiting').css({"display" : "none"});
+												var htmlContent = "<div style='width:300px; line-height:50px; text-align:center; font-size:18px; font-weight:bold;'>"+jsonResponse.message+"</div>";
+												$.fancybox({	
+														'centerOnScroll'	: true, 
+														'content'					: htmlContent,
+														'onClosed'				: function(){window.location.reload();}
+												});
+										}
+										else{
+												$('#submitWaiting').css({"display" : "none"});
+												alert(jsonResponse.message);
+										}
+								}
+				);//end of Ajax Post Request
+		}
+}
+
+function  missingItem(callingObj){
+		var equipmentWrapper = $(callingObj).parent().parent();
+		var status = $(equipmentWrapper).find(".status .details-content");
+		if($(equipmentWrapper).hasClass("missing")){
+				var originalCondition = $(equipmentWrapper).find(".original-condition").val();
+				$(status).text(originalCondition);
+				$(equipmentWrapper).removeClass("missing");
+				if(!$(equipmentWrapper).hasClass("scanned"))
+						$(equipmentWrapper).addClass("not-scanned");
+		}
+		else{
+				$(status).text("Missing");
+				$(equipmentWrapper).removeClass("broken").removeClass("not-scanned").addClass("missing");
+		}
+}
+
+function brokenItem(callingObj){
+		var equipmentWrapper = $(callingObj).parent().parent();
+		var status = $(equipmentWrapper).find(".status .details-content");
+		if($(equipmentWrapper).hasClass("broken")){
+				var originalCondition = $(equipmentWrapper).find(".original-condition").val();
+				$(status).text(originalCondition);
+				$(equipmentWrapper).removeClass("broken");
+				if(!$(equipmentWrapper).hasClass("scanned"))
+						$(equipmentWrapper).addClass("not-scanned");
+		}
+		else{
+				$(status).text("Damaged");
+				$(equipmentWrapper).removeClass("missing").addClass("broken");
+		}
+}
+
+function editFine(loanID, currentFine){
+		var htmlContent = "<div style='padding:7px 20px; width:400px'>";
+		htmlContent += "<div style='margin-bottom:7px; width:100%; text-align:center; font-size:12px; font-weight:bold; border-bottom:1px solid;'>Edit Fine</div>";
+		htmlContent += "<div class='pf-element' style='padding-bottom:5px'><div class='pf-description-float'>Current Fine</div><div class='pf-content-float'>$"+currentFine+"</div><div class='clear'></div></div>";
+		htmlContent += "<div class='pf-element' style='padding-bottom:5px; border-bottom:1px solid;'><div class='pf-description-float'>New Fine</div><div class='pf-content-float'><input class='pf-text-input' id='new-fine' type='text' name='new-fine' /></div><div class='clear'></div></div>";
+		htmlContent += "<div style='width:110px; margin:auto; margin-top: 5px;'><div class='form-button' onclick='submitEditFine()'>Submit</div></div>";
+		htmlContent += "<input type='hidden' id='fb-loanID' value='"+loanID+"' /><input type='hidden' id='fb-currentFine' value='"+currentFine+"' />";
+		htmlContent += "</div>";
+		$.fancybox({	
+				'centerOnScroll'	: true, 
+				'content'					: htmlContent
+		});
+}
+
+function submitEditFine(){
+		var newFine = parseInt($("#new-fine").val());
+		if(!isNaN(newFine) && newFine >= 0){
+				// new fine is valid
+				$.get("editLoanFunctions.php",
+						{
+								"loanID"		: $('#fb-loanID').val(),
+								"newFine"		: newFine
 						},
 						function(response){
 								var jsonResponse = JSON.parse(response);
 								if(jsonResponse.status == 0){
-										$('#submitWaiting').css({"display" : "none"});
-										alert(jsonResponse.message);
-										window.location = "http://art.usc.edu/loaner/loans";
+										window.location.reload();
 								}
 								else{
-										$('#submitWaiting').css({"display" : "none"});
-										alert(jsonResponse.message);
+										$.fancybox.close();
+										showError("jsonResponse.message");
 								}
 						}
-		);//end of Ajax Post Request
+				);
+		}
 }

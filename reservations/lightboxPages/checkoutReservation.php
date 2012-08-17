@@ -68,6 +68,7 @@
 				<legend>Listed Equipment</legend>
 				<div id="equipment-checkout-wrapper">
 						<?php
+								$allItemsOK = "true";
 								$r = mysql_query($queryString);
 								$i = 0;
 								$inputHTML = '<div id="input-wrapper">'; // open 1
@@ -82,12 +83,44 @@
 												$equipmentHTML = $equipmentHTML."<div class='holder'>"; //open 2
 										}
 										
-										$inputHTML = $inputHTML.'<input id="input_'.$equipmentID.'" class="equipment-input" type="text" onchange="validateEqID(this)"//>';
-										$equipmentHTML = $equipmentHTML.'<div id="'.$equipmentID.'" class="equipment not-scanned">';
-										$equipmentHTML = $equipmentHTML.'Equipment ID: '.$equipmentID.'<br/>';
-										$equipmentHTML = $equipmentHTML.'Model: '.$model.'<br/>';
-										$equipmentHTML = $equipmentHTML.'Notes: '.$notes.'<br/>';
-										$equipmentHTML = $equipmentHTML.'</div>';
+										$includedEquipment[$i] = $equipmentID;
+										
+										
+										$inputHTML = $inputHTML.'<input id="input_'.$equipmentID.'" class="equipment-input" type="text" onchange="validateEqID(this)"/>';
+										$equipmentHTML = $equipmentHTML.'<div id="'.$equipmentID.'" class="equipment-wrapper';
+										if($result['condID'] == 5){
+												//broken item
+												$equipmentHTML .=' not-scanned broken-notify">';
+										}
+										else if($result['condID'] == 6){
+												//missing item
+												$equipmentHTML .=' missing-notify">';
+										}
+										else{
+												//  valid item
+												$equipmentHTML .=' not-scanned">';
+										}
+										
+										
+										$equipmentHTML .= '<div class="equipment" style="width:100%">';
+										$equipmentHTML = $equipmentHTML.'<div><p class="details-title" style="width:40%">Equipment ID:</p><p class="details-content" style="width:60%">'.$equipmentID.'</p><div class="clear"></div></div>';
+										$equipmentHTML = $equipmentHTML.'<div><p class="details-title">Model:</p><p class="details-content">'.$model.'</p><div class="clear"></div></div>';
+										
+										if($result['condID'] == 5){
+												// item is damaged
+												$equipmentHTML = $equipmentHTML.'<div class="status"><p class="details-title">Status:</p><p class="details-content" style="color:white">Damaged</p><div class="clear"></div></div>';
+												$equipmentHTML = $equipmentHTML.'</div></div>';
+										}
+										else if($result['condID'] == 6){
+												// item is missing
+												$equipmentHTML = $equipmentHTML.'<div class="status"><p class="details-title">Status:</p><p class="details-content" style="color:white">Missing</p><div class="clear"></div></div>';
+												$equipmentHTML = $equipmentHTML.'</div></div>';
+										}
+										else{
+												// item is good
+												$equipmentHTML = $equipmentHTML.'<div class="status"><p class="details-title">Status:</p><p class="details-content" style="color:white">Good</p><div class="clear"></div></div>';
+												$equipmentHTML = $equipmentHTML.'</div></div>';
+										}
 										
 										$i++;
 										
@@ -120,4 +153,5 @@
 		<input id="lid" type="hidden" value="<?php echo $lid; ?>"/>
 		<input id='itemID' type='hidden' value="<?php echo $id; ?>"/>
 		<input id='type' type='hidden' value="<?php echo $type; ?>"/>
+		<input id='all-items-ok' type='hidden' value="<?php echo $allItemsOK; ?>"/>
 </form>

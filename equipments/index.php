@@ -2,7 +2,6 @@
 	$page_title = "Equipment";
 	$default_sort_field = "equipmentid";
 	$current_page = "index.php";
-	$displayableRows = 25;
 	require_once("../includes/session.php");
 	require_once("../includes/headerOpen.php"); //opens the head tag
 ?>
@@ -29,7 +28,21 @@
 	//search field, category search, and sort
 	//you should be able to search and select a category
 	//univerasal query string, if sort by category is all and no search items, use this query
-	$queryString = "SELECT equipments.kitid, equipments.equipmentid, equipments.model, equipCategory.equipCatName, locations.locationName FROM equipments LEFT JOIN equipCategory ON equipments.equipCatID = equipCategory.equipCatID LEFT JOIN locations ON equipments.locationID = locations.locationID WHERE ";
+	$queryString = "";
+	if(isset($_GET['view'])){
+		if($_GET['view']=="missing"){
+			$queryString .= "SELECT equipments.kitid, equipments.equipmentid, equipments.model, equipCategory.equipCatName, locations.locationName FROM equipments LEFT JOIN equipCategory ON equipments.equipCatID = equipCategory.equipCatID LEFT JOIN locations ON equipments.locationID = locations.locationID WHERE equipments.condID=6 AND ";
+		}
+		else if($_GET["view"]=="damaged"){
+			$queryString .= "SELECT equipments.kitid, equipments.equipmentid, equipments.model, equipCategory.equipCatName, locations.locationName FROM equipments LEFT JOIN equipCategory ON equipments.equipCatID = equipCategory.equipCatID LEFT JOIN locations ON equipments.locationID = locations.locationID WHERE equipments.condID=5 AND ";
+		}
+		else{
+			$queryString .= "SELECT equipments.kitid, equipments.equipmentid, equipments.model, equipCategory.equipCatName, locations.locationName FROM equipments LEFT JOIN equipCategory ON equipments.equipCatID = equipCategory.equipCatID LEFT JOIN locations ON equipments.locationID = locations.locationID WHERE (equipments.condID<>6 AND equipments.condID<>5) AND ";
+		}
+	}
+	else{
+		$queryString .= "SELECT equipments.kitid, equipments.equipmentid, equipments.model, equipCategory.equipCatName, locations.locationName FROM equipments LEFT JOIN equipCategory ON equipments.equipCatID = equipCategory.equipCatID LEFT JOIN locations ON equipments.locationID = locations.locationID WHERE (equipments.condID<>6 AND equipments.condID<>5) AND ";
+	}
 	
 	//check to see if sort by category or search field is populated and append to the query string
 	if(isset($_GET['s'])){
@@ -84,6 +97,7 @@
 		}	
 	}
 	
+	
 ?>
 
 <div id="sidebar">
@@ -124,8 +138,19 @@
 							?>
 						</select>
 				</div>
+				<?php
+					if(isset($_GET['view']))
+						echo "<input type='hidden' name='view' value='".$_GET['view']."' />";
+				?>
 		</form>
 	</div>
+	<div id='type_selection'>
+				<ul>
+						<li><a href='index.php'>All Equipment</a></li>
+						<li><a href='index.php?view=damaged'>Damaged Equipment</a></li>
+						<li><a href='index.php?view=missing'>Missing Equipment</a></li>
+				</ul>
+		</div>
 	<?php require_once("../includes/initialize-paging.php"); ?>
 	<div id="contentTableWrapper">
 		<table id="contentTable">

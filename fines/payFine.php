@@ -11,7 +11,7 @@
 		
 		if($paymentAmount == 0){exit(0);}
 		
-		$insertQuery = "INSERT INTO fines (userid, amount, accepted_by, timestamp, deptID) VALUES ('".$userid."',".$paymentAmount.",'".$accepted_by."',".time().",'".$_SESSION['dept']."')";
+		$insertQuery = "INSERT INTO finePayments (userid, amount, accepted_by, timestamp, deptID) VALUES ('".$userid."',".$paymentAmount.",'".$accepted_by."',".time().",'".$_SESSION['dept']."')";
 		mysql_query($insertQuery);
 		if(mysql_errno() != 0){sqlError(mysql_errno(),mysql_error());}
 				

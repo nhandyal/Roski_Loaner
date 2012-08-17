@@ -18,8 +18,7 @@
 		<form id="loanerform" class="createForm">
 				<fieldset>
 						<legend>New Loan</legend>
-						<div class="pf-note"><span class="required">*</span> Required fields<br /><br /></div>
-						<div class="pf-element">
+						<div class="pf-element" style="padding: 0px">
 								<div class='pf-description-float'>
 										User ID<span class="required">*</span>:
 								</div>
@@ -30,15 +29,20 @@
 								</div>
 								<div class='clear'></div>
 						</div>
+				</fieldset>
+				<fieldset class="loan-item-template">
+						<legend class='item-legend'>
+								<span class="item-number">Item: 1</span>
+						</legend>
 						<div class="pf-element">
 								<div class='pf-description-float'>
 										Item ID<span class="required">*</span>:
 										<p class="pf-note">(Barcode)</p>
 								</div>
 								<div class='pf-content-float'>
-										<input class="pf-text-input" type="text" name="itemid" id="itemid" />
-										<img id="idResultImg" src="../etc/checkMark.png" width="15" height="15" style="display:none"/>
-										<img id="idWaiting" class="waiting" src="../etc/loading.gif" width="15" height="15" style="display: none"/>
+										<input class="pf-text-input itemid" type="text" name="itemid" onchange="changeItemID(this)"/>
+										<img class="idResultImg" src="../etc/checkMark.png" width="15" height="15" style="display:none"/>
+										<img class="idWaiting" class="waiting" src="../etc/loading.gif" width="15" height="15" style="display: none"/>
 								</div>
 								<div class='clear'></div>
 						</div>
@@ -47,9 +51,9 @@
 										Item Type<span class="required">*</span>:
 								</div>
 								<div class='pf-content-float'>
-										<select id="item-type">
-												<option value='Kit' selected='selected'>Kit</option>
-												<option value='Equipment'>Equipment</option>
+										<select class="item-type" onchange="changeItemType(this)">
+												<option value='Kit' <?php if($_SESSION['dept']==2)echo "selected='selected'"; ?>>Kit</option>
+												<option value='Equipment' <?php if($_SESSION['dept']!=2)echo "selected='selected'"; ?>>Equipment</option>
 										</select>
 								</div>
 								<div class='clear'></div>
@@ -59,42 +63,46 @@
 										Loan Type<span class="required">*</span>:
 								</div>
 								<div class='pf-content-float'>
-										<select id="loan-type" >
+										<select class="loan-type" >
 												<option value='2' selected="selected">Short Term</option>
 												<option value='7'>Long Term</option>
 										</select>
 								</div>
 								<div class='clear'></div>
 						</div>
-						<div class="pf-element" id='loan-length-container' style='padding:1px 2px 0px 0px !important; margin-bottom:15px; overflow:hidden'>
-								<div class='pf-description-float'>
-										Loan Period:
-										<p class="pf-note">Default length can be changed (days).</p>
+						<div class="hidden-elements">
+								<div class="pf-element">
+										<div class='pf-description-float'>
+												Loan Length<span class="required">*</span>:
+												<p class="pf-note">In days</p>
+										</div>
+										<div class='pf-content-float'>
+												<input class="pf-text-input loan-length" type="text" name="loanLength" onchange="changeLoanLength(this)"/>
+										</div>
+										<div class='clear'></div>
 								</div>
-								<div class='pf-content-float'>
-										<input id="loan_length" class="pf-text-input" type="text" name="loanLength" />
-										<input id='default-loan-length' type='hidden' value=' '/>
+								<div class="pf-element">
+										<div class='pf-description-float'>
+												Notes
+										</div>
+										<div class='pf-content-float'>
+												<textarea class="pf-text-input notes" name="notes" cols="35" rows="5" ></textarea>
+										</div>
+										<div class='clear'></div>
 								</div>
-								<div class='clear'></div>
-						</div>
-						<div class="pf-element">
-								<div class='pf-description-float'>
-										Notes:
-								</div>
-								<div class='pf-content-float'>
-										<textarea class="pf-text-input" name="notes" id="notes" cols="35" rows="5"></textarea>
-								</div>
-								<div class='clear'></div>
+								<input type='hidden' class="valid-loan-length" value="0"/>
 						</div>
 				</fieldset>
-				<fieldset style='margin-top:15px'>
-						<legend>Listed Equipment</legend>
-						<div id="equipment-checkout-wrapper"></div>
-				</fieldset>
-				<div class="pf-element" style="width:140px; margin:auto; float:none !important; padding-top:10px">
-						<input type="button" name="submit" id="submit" value="Submit"/>&nbsp;&nbsp;<input type="button" id="reset" value="Reset"/>&nbsp&nbsp<img id="submitWaiting" class="waiting" src="../etc/loading.gif" width="15" height="15" style="display: none"/>
-				</div>
 		</form>
+		<div id='form-controls'>
+				<div id="add-item" class="form-button">Add Item</div>
+				<div id="submit-loan" class="form-button">Submit</div>
+				<div class="clear"></div>
+		</div>
+</div>
+<div id="page-data">
+		<input type='hidden' id="loan-item-count" value="0"/>
+		<input type="hidden" id="deptID" value="<?php echo $_SESSION['dept']; ?>"/>
 </div>
 <div class="clear"></div>
 

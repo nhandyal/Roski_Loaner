@@ -76,15 +76,14 @@ function showCheckoutLightbox(loanID){
 		$.fancybox.showActivity();
 		$.get(targetURL,function(response){
 				$.fancybox({
-								'autoDimensions'	: false,
-								'width'						: 1100,
-								'height'					: 618,
-								'centerOnScroll'	: true,
-								'content'					: response,
-								'onComplete'			: function(){fancyBoxResize()}
-						});
-				}
-		);
+						'autoDimensions'	: false,
+						'width'						: 1100,
+						'height'					: 618,
+						'centerOnScroll'	: true,
+						'content'					: response,
+						'onComplete'			: function(){fancyBoxResize()}
+				});
+		});
 }
 
 function validateEqID(obj){ // function to see if scanned item is displayed in the item list
@@ -100,7 +99,10 @@ function validateEqID(obj){ // function to see if scanned item is displayed in t
 }
 
 function validateSubmit(){
-		if( (document.getElementsByClassName("not-scanned")).length == 0){
+		if($('#all-items-ok').val() == "false"){
+				alert("There are items in this loan that cannot be checked out due to there condition. You must edit the condition of the items before you can check them out.");
+		}
+		else if( (document.getElementsByClassName("not-scanned")).length == 0){
 				submitReservation();
 		}
 		else{
@@ -139,4 +141,24 @@ function submitReservation(){
 				}
 		}
 		);
+}
+
+function  missingItem(callingObj){
+		var equipmentWrapper = $(callingObj).parent().parent();
+		if($(equipmentWrapper).hasClass("missing")){
+				$(equipmentWrapper).removeClass("missing").addClass("not-scanned");
+		}
+		else{
+				$(equipmentWrapper).removeClass("not-scanned scanned broken").addClass("missing");
+		}
+}
+
+function brokenItem(callingObj){
+		var equipmentWrapper = $(callingObj).parent().parent();
+		if($(equipmentWrapper).hasClass("broken")){
+				$(equipmentWrapper).removeClass("broken").addClass("not-scanned");
+		}
+		else{
+				$(equipmentWrapper).removeClass("not-scanned missing").addClass("broken");
+		}
 }

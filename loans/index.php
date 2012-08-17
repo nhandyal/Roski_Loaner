@@ -2,7 +2,6 @@
 	$page_title = "Loans";
 	$default_sort_field = "issue_date";
 	$current_page = "index.php";
-	$displayableRows = 25;
 	$view;
 	if(isset($_GET['view']))
 		$view = $_GET['view'];
@@ -130,6 +129,11 @@
 										?>
 														<a href="javascript:renew(<?php echo $e['lid'].",'".$view."'"; ?>)" title='Renew' ><img src='../etc/refresh.png' /></a>
 														<a href="javascript:returnLoan(<?php echo $e['lid']; ?>)" title='Return Loan' ><img src='../etc/cross.png' /></a>
+										<?php
+												}
+												else if($view == "archive" && ($_SESSION['role'] == 2 || $_SESSION['role'] == 3 || $_SESSION['role'] == 5)){
+										?>
+														<a href="javascript:editFine(<?php echo $e['lid'].",".$e['fine']; ?>)" title='Edit fine' ><img src='../etc/edit.png' /></a>
 										<?php
 												}
 										?>

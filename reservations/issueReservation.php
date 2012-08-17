@@ -48,8 +48,8 @@
 								</div>
 								<div class='pf-content-float'>
 										<select id="item-type">
-												<option value='Kit' selected='selected'>Kit</option>
-												<option value='Equipment'>Equipment</option>
+												<option value='Kit' <?php if($_SESSION['dept']==2)echo "selected='selected'"; ?>>Kit</option>
+												<option value='Equipment' <?php if($_SESSION['dept']!=2)echo "selected='selected'"; ?>>Equipment</option>
 										</select>
 								</div>
 								<div class='clear'></div>
