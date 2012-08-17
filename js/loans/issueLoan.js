@@ -113,9 +113,9 @@ function validateIID(fieldsetOBJ){
 
 function validateLoanLength(hiddenElementsOBJ){
 		var llength = $(hiddenElementsOBJ).find(".loan-length").val();
-		if (llength <= 0 || isNaN(Number(llength))){
+		if (llength < 0 || isNaN(Number(llength))){
 				$(hiddenElementsOBJ).find(".valid-loan-length").val("0");
-				showError("Loan length must be greater than 0")
+				showError("Loan length must be greater than or equal to 0")
 		}
 		else{
 				$(hiddenElementsOBJ).find(".valid-loan-length").val("1");

@@ -15,7 +15,10 @@
 				$loan_type = $loan['loanType'];
 				$loan_length = intval($loan['loanLength']);
 				$issue_date = time();
-				$due_date = mktime(13,0,0) + ($loan_length*24*60*60) - 60;
+				if($loan_length != 0)
+						$due_date = mktime(13,0,0) + ($loan_length*24*60*60) - 60;
+				else if ($loan_length == 0)
+						$due_date = mktime(17,0,0) - 60;
 				$query = "";
 				
 				$equipmentQuery = "";
