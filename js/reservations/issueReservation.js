@@ -1,3 +1,11 @@
+// Author: Nikhil Handyal
+// Date Created: 03/15/2012
+// Dept: USC ROSKI SCHOOL OF FINE ARTS
+// PROJECT: Loaner
+// Description: Javascript functios required for resrvations/issueReservation page
+//
+// -------------------------------------------- RESERVATIONS/ISSUERESERVATION.JS ----------------------------------------- //
+
 var uidset = false;
 var itemIDset = false;
 var validLoanLength = false;

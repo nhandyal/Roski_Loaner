@@ -8,6 +8,9 @@
 
 $(document).ready(function() {
 		
+		// set focus to search field
+		$("#searchBox").focus();
+		
 		setSearchField();
 		
 		document.getElementById("contentTableHeader").addEventListener("click", function(e) {

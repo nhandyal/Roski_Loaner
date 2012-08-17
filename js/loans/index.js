@@ -1,4 +1,14 @@
+// Author: Nikhil Handyal
+// Date Created: 03/15/2012
+// Dept: USC ROSKI SCHOOL OF FINE ARTS
+// PROJECT: Loaner
+// Description: Javascript functios required for loans/index page
+//
+// -------------------------------------------- LOANS/INDEX.JS ----------------------------------------- //
+
 $(document).ready(function() {
+		// set focus to search field
+		$("#searchBox").focus();
 		
 		setSearchField();
 		

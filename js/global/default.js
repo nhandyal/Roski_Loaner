@@ -25,7 +25,7 @@ $(document).ready(function(){
 		
 		var config = {
 				over: expand,
-				timeout: 500,
+				timeout: 250,
 				out: collapse
 		};
 		

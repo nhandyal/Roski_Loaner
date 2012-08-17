@@ -1,9 +1,19 @@
+// Author: Nikhil Handyal
+// Date Created: 03/15/2012
+// Dept: USC ROSKI SCHOOL OF FINE ARTS
+// PROJECT: Loaner
+// Description: Javascript functios required for fines/index page
+//
+// -------------------------------------------- FINES/INDEX.JS ----------------------------------------- //
+
 var xhr;
 $(document).ready(function(){
+		// set focus to live search box
+		$("#liveSearch").focus();
+		
 		xhr = getXmlHttpRequestObject();
 		liveSearchUpdateUsers("");
-		
-		
+				
 		$('#liveSearch').keyup(function(){
 				if($('#liveSearch').val() != $('#liveSearch-previous').val()){
 						$('#liveSearch-previous').val($('#liveSearch').val());

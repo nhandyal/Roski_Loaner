@@ -1,3 +1,11 @@
+// Author: Nikhil Handyal
+// Date Created: 03/15/2012
+// Dept: USC ROSKI SCHOOL OF FINE ARTS
+// PROJECT: Loaner
+// Description: Javascript functios required for loans/issueLoan page
+//
+// -------------------------------------------- LOANS/issueLoan.JS ----------------------------------------- //
+
 $(document).ready(function(){
 		addItem();
 		
@@ -9,7 +17,7 @@ $(document).ready(function(){
 		var urlVars = getUrlVars();
 		if(urlVars['userid'] != undefined){
 				// verify the userid
-				$("#userid").val(urlVars['userid']);
+				$("#userid").val(decodeURIComponent(urlVars['userid']));
 				validateUID();
 		}
 		

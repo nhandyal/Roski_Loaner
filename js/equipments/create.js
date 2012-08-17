@@ -1,6 +1,17 @@
+// Author: Nikhil Handyal
+// Date Created: 03/15/2012
+// Dept: USC ROSKI SCHOOL OF FINE ARTS
+// PROJECT: Loaner
+// Description: Javascript functios required for equipments/create page
+//
+// -------------------------------------------- EQUIPMENTS/CREATE.JS ----------------------------------------- //
+
 var validKitID = false;
 
 $(document).ready(function() {	
+		//set focus to equipment id field
+		$("#equipmentid").focus();
+		
 		$("#kitid").blur(function(){
 				var id = $("#kitid").val();
 				if(id == ""){

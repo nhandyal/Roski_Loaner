@@ -6,6 +6,11 @@
 //
 // -------------------------------------------- USERS/CREATE.JS ----------------------------------------- //
 
+$("document").ready(function(){
+		//set focus to userid field
+		$("#userid").focus();
+});
+
 function submitForm(){
 		var access_area_ids = new Array();
 

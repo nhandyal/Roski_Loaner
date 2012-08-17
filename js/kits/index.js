@@ -7,6 +7,8 @@
 // -------------------------------------------- KITS/INDEX.JS ----------------------------------------- //
 
 $(document).ready(function() {
+		// set focus to searchfield
+		$("#searchBox").focus();
 		
 		setSearchField();
 		

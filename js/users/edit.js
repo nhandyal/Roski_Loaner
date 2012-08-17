@@ -6,6 +6,11 @@
 //
 // -------------------------------------------- USERS/EDIT.JS ----------------------------------------- //
 
+$("document").ready(function(){
+		//set focus to userid field
+		$("#fname").focus();
+});
+
 function submitForm(){
 		var access_area_ids = new Array();
 

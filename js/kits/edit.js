@@ -6,6 +6,10 @@
 //
 // -------------------------------------------- KITS/EDIT.JS ----------------------------------------- //
 
+$("document").ready(function(){
+		$("#loan_length").focus();
+});
+
 function submitForm(){
 		var access_area_ids = new Array();
 

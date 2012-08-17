@@ -6,6 +6,10 @@
 //
 // -------------------------------------------- KITS/CREATE.JS ----------------------------------------- //
 
+$("document").ready(function(){
+		$("#kitid").focus();
+});
+
 function submitForm(){
 		var access_area_ids = new Array();
 
