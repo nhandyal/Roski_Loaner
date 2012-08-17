@@ -23,14 +23,22 @@ $(document).ready(function(){
 						}
 		});
 		
-		$('#department-header').mouseover(function(){
-				$('.options').stop().animate({height: 30},400,function(){});
-		});
+		var config = {
+				over: expand,
+				timeout: 500,
+				out: collapse
+		};
 		
-		$('#department-header').mouseout(function(){
-				$('.options').stop().animate({height: 0},400,function(){});
-		});
+		$('#department-header').hoverIntent(config);
 });
+
+function expand(){
+		$('.options').stop().animate({height: 30},400,function(){});
+}
+
+function collapse(){
+		$('.options').stop().animate({height: 0},400,function(){});
+}
 
 function sysadmToggleDept(deptID){
 		$.post("/loaner/includes/functions.php",{

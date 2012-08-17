@@ -19,7 +19,6 @@
 		<!-- Import Global Javascripts -->
 		<script language="JavaScript" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script> 								<!-- jQuery Framework -->
 		<script language="JavaScript" type="text/javascript" src="../js/global/jquery_ui.js"></script> 																												<!-- jQuery UI Framework -->
-		<script language="JavaScript" type="text/javascript" src="../js/global/jquery.scrollTo-min.js"></script> 																							<!-- jQuery scrollTo plugin -->
-		<script language="JavaScript" type="text/javascript" src="../js/global/jQuery.tableSort-min.js"></script> 																						<!-- jQuery tableSorter plugin -->
+		<script language="JavaScript" type="text/javascript" src="../js/global/hoverIntent.js"></script> 																											<!-- jQuery tableSorter plugin -->
 		<script language="JavaScript" type="text/javascript" src="../js/global/default.js"></script> 																													<!-- Default Javascript -->
 		
