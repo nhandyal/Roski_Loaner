@@ -7,7 +7,7 @@ function buildURL(obj){
 		var search = "?"; 
 		
 		if (Object.keys(getVars).length == 0 ){ // no parameters have been set
-				if(sortField != "filler" && sortField != "" ){
+				if(sortField != "filler" && sortField !="loans-desc" && sortField != "" ){
 						search += "sf=" + sortField;
 						if (sortField == defaultSort){ // ----------------------------------------------------------------------------- default sort field
 								search += "&dir=DESC";
@@ -52,7 +52,7 @@ function buildURL(obj){
 				}
 		}
 		
-		if(sortField != "filler" && sortField != "" ){
+		if(sortField != "filler" && sortField !="loans-desc" && sortField != "" ){
 				var targetURL = currentURL + search;
 				window.location = targetURL;
 		}

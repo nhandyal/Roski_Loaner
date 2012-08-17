@@ -11,19 +11,16 @@
 		width:15%
 }
 
-.fname{
-		width:15%;
+.loans-desc{
+		width:19%;
 }
 
 .issue_date{
-		width:15%;
+		width:12%;
 }
 
 .due_date{
-		width:15%;
-}
-.return_date{
-		width:15%;
+		width:12%;
 }
 
 .fine{

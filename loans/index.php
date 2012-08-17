@@ -35,7 +35,7 @@
 		
 		//----------------------------------------------- Sort CONTROLS --------------------------------------//
 		//set up the query for this page
-		$queryString = "SELECT a.lid, a.kitid, a.equipmentid, a.userid, a.issue_date, a.due_date, a.return_date, a.fine, b.fname, b.lname FROM loans a, users b WHERE a.userid = b.userid AND a.deptID=".$_SESSION['dept'];
+		$queryString = "SELECT a.lid, a.kitid, a.equipmentid, a.userid, a.issue_date, a.due_date, a.return_date, a.fine, b.kit_desc, c.model FROM loans a LEFT JOIN kits b ON a.kitid=b.kitid LEFT JOIN equipments c ON a.equipmentid=c.equipmentid WHERE a.deptID=".$_SESSION['dept'];
 		
 		// Pick which loans need to be displayed based on view parameter
 		switch($view){
@@ -73,6 +73,7 @@
 				}	
 		}
 		
+		
 		//----------------------------------------------- PAGING CONTROLS --------------------------------------//
 		require_once("../includes/initialize-paging.php");
 ?>
@@ -105,20 +106,30 @@
 								</tr>
 								<tr id="contentTableHeader">
 										<?php
-												$headerClasses = array(0 => "kitid", 1 => "equipmentid", 2 => "userid", 3 => "fname", 4 => "issue_date", 5 => "due_date", 6 => "fine", 7 => "filler");
-												$headerTitles = array(0 => "KIT ID", 1 => "EQ ID", 2 => "USER ID", 3 => "NAME", 4 => "ISSUED", 5=> "DUE", 6 => "FINES", 7 => " ");		
+												$headerClasses = array(0 => "kitid", 1 => "equipmentid", 2 => "userid", 3 => "loans-desc", 4 => "issue_date", 5 => "due_date", 6 => "fine", 7 => "filler");
+												$headerTitles = array(0 => "KIT ID", 1 => "EQ ID", 2 => "USER ID", 3 => "DESCRIPTION", 4 => "ISSUED", 5=> "DUE", 6 => "FINES", 7 => " ");		
 												
 												require_once("../includes/build-table-headers.php");
 										?>
 								</tr>
 								<?php
-									while($e = mysql_fetch_array($result)){
+										while($e = mysql_fetch_array($result)){
+										$type = 1;
+										if ($e['equipmentid'] != "")
+												$type = 2;
 								?>
 								<tr>
 										<td><?php echo $e['kitid']; ?></td>
 										<td><?php echo $e['equipmentid']; ?></td>
 										<td><?php echo $e['userid']; ?></td>
-										<td><?php echo $e['fname']; echo " "; echo $e['lname']; ?></td>
+										<td>
+												<?php
+														if ($type == 1)
+																echo $e['kit_desc'];
+														else if ($type == 2)
+																echo $e['model'];
+												?>
+										</td>
 										<td><?php echo date("m-d-y" ,$e['issue_date']); ?></td>
 										<td><?php echo date("m-d-y" ,$e['due_date']);	?></td>
 										<td><?php echo $e['fine']; ?></td>
