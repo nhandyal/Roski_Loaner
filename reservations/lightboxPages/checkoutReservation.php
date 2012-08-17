@@ -83,25 +83,44 @@
 												$equipmentHTML = $equipmentHTML."<div class='holder'>"; //open 2
 										}
 										
-										$inputHTML = $inputHTML.'<input id="input_'.$equipmentID.'" class="equipment-input" type="text" onchange="validateEqID(this)"//>';
-										$equipmentHTML = $equipmentHTML.'<div id="'.$equipmentID.'" class="equipment-wrapper';
+										$includedEquipment[$i] = $equipmentID;
 										
-										if ($result['condID'] == 5){
-												$equipmentHTML .= ' broken';
-												$allItemsOK = "false";
+										
+										$inputHTML = $inputHTML.'<input id="input_'.$equipmentID.'" class="equipment-input" type="text" onchange="validateEqID(this)"/>';
+										$equipmentHTML = $equipmentHTML.'<div id="'.$equipmentID.'" class="equipment-wrapper';
+										if($result['condID'] == 5){
+												//broken item
+												$equipmentHTML .=' not-scanned broken-notify">';
 										}
 										else if($result['condID'] == 6){
-												$equipmentHTML .= ' missing';
-												$allItemsOK = "false";
+												//missing item
+												$equipmentHTML .=' missing-notify">';
 										}
-										else
-												$equipmentHTML .= ' not-scanned';
-												
-										$equipmentHTML .= '"><div class="equipment">';
-										$equipmentHTML = $equipmentHTML.'Equipment ID: '.$equipmentID.'<br/>';
-										$equipmentHTML = $equipmentHTML.'Model: '.$model.'<br/>';
-										$equipmentHTML = $equipmentHTML.'Notes: '.$notes.'<br/>';
-										$equipmentHTML = $equipmentHTML.'</div></div>';
+										else{
+												//  valid item
+												$equipmentHTML .=' not-scanned">';
+										}
+										
+										
+										$equipmentHTML .= '<div class="equipment" style="width:100%">';
+										$equipmentHTML = $equipmentHTML.'<div><p class="details-title" style="width:40%">Equipment ID:</p><p class="details-content" style="width:60%">'.$equipmentID.'</p><div class="clear"></div></div>';
+										$equipmentHTML = $equipmentHTML.'<div><p class="details-title">Model:</p><p class="details-content">'.$model.'</p><div class="clear"></div></div>';
+										
+										if($result['condID'] == 5){
+												// item is damaged
+												$equipmentHTML = $equipmentHTML.'<div class="status"><p class="details-title">Status:</p><p class="details-content" style="color:white">Damaged</p><div class="clear"></div></div>';
+												$equipmentHTML = $equipmentHTML.'</div></div>';
+										}
+										else if($result['condID'] == 6){
+												// item is missing
+												$equipmentHTML = $equipmentHTML.'<div class="status"><p class="details-title">Status:</p><p class="details-content" style="color:white">Missing</p><div class="clear"></div></div>';
+												$equipmentHTML = $equipmentHTML.'</div></div>';
+										}
+										else{
+												// item is good
+												$equipmentHTML = $equipmentHTML.'<div class="status"><p class="details-title">Status:</p><p class="details-content" style="color:white">Good</p><div class="clear"></div></div>';
+												$equipmentHTML = $equipmentHTML.'</div></div>';
+										}
 										
 										$i++;
 										

@@ -75,7 +75,6 @@
 				$equipSubCatID	= urldecode($_POST['equipSubCatID']);
 				$condID		= urldecode($_POST['cond']);
 				$locationID	= urldecode($_POST['location']);
-				$owner = urldecode($_POST['owner']);
 				$deptID		= $_SESSION['dept'];
 				$desc 		= urldecode($_POST['desc']);
 				$notes 		= urldecode($_POST['notes']);
