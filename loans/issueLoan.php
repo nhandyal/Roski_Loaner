@@ -4,7 +4,9 @@
     require_once("../includes/headerOpen.php");
 ?>
 
+		<link rel="stylesheet" type="text/css" href="../fancybox/jquery.fancybox-1.3.4.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="../css/loans/loans.css">
+		<script type="text/javascript" src="../fancybox/jquery.fancybox-1.3.4.pack.js"></script>
 		<script type="text/javascript" src="../js/loans/issueLoan.js"></script>
 
 <?php

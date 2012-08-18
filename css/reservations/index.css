@@ -18,4 +18,9 @@
 .filler{
 		width:10%;
 }
-
+#listed-equipment-label{
+		width:15%;
+}
+#listed-equipment{
+		width:84%;
+}

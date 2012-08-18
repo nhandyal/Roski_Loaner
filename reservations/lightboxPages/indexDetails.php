@@ -54,7 +54,7 @@
 										?>
 														<div class="cf-links">
 																<ul>
-																		<li><a href="javascript:validateIssue('<?php echo $res['lid']; ?>')" class="issue" title="Issue"><img src="../etc/issue.png" /></a></li>
+																		<li><a href="javascript:validateCheckout('<?php echo $res['lid']; ?>')" class="issue" title="Issue"><img src="../etc/issue.png" /></a></li>
 																		<li><a href="javascript:cancel('<?php echo $res['lid']; ?>')" class="cancel" title='Cancel'><img src='../etc/cross.png' /></a></li>
 																</ul>
 														</div>
@@ -105,6 +105,7 @@
 						<div class="pf-element">
 								<div class='pf-description'>
 										Description:
+								</div>
 								<div class='pf-content'>
 										<?php echo $desc; ?>
 								</div>
@@ -114,7 +115,7 @@
 										Notes:
 								</div>
 								<div class='pf-content'>
-										<?php echo $res['notes']; ?>
+										<?php echo str_replace("\n","<br/>",$res['notes']); ?>
 								</div>
 						</div>
 			</fieldset>
@@ -122,8 +123,8 @@
 			<fieldset>
 						<legend>Equipment</legend>
 						<div class="pf-element">
-								<div class="pf-description-float">Listed Equipment</div>
-								<div class="pf-content-float">
+								<div class="pf-description-float" style='width:15%'>Listed Equipment</div>
+								<div class="pf-content-float" style='width:84%'>
 										<?php 
 												if($iskit){
 														$query = "SELECT * FROM equipments WHERE equipments.kitid='".$id."' AND status<>-1";

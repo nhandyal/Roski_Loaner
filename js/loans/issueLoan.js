@@ -25,6 +25,23 @@ $(document).ready(function(){
 		$("#add-item").click(function(){addItem();});
 		$("#submit-loan").click(function(){submitLoan();});
 		
+		$('.equipment-input').live("keypress", function(e) {
+				/* ENTER PRESSED*/
+				if (e.keyCode == 13) {
+						/* FOCUS ELEMENT */
+						var inputs = $(this).parents("form").eq(0).find(":input");
+						var idx = inputs.index(this);
+
+						if (idx == inputs.length - 1) {
+								inputs[0].select()
+						} else {
+								inputs[idx + 1].focus(); //  handles submit buttons
+								inputs[idx + 1].select();
+						}
+						return false;
+				}
+		});
+		
 });
 
 // GLOBAL VALIDATION FUNCTIONS
@@ -179,8 +196,12 @@ function submitLoan(){
 								var jsonResponse = JSON.parse(response);
 								if(jsonResponse.status == 0){
 										hideError();
-										window.location = "http://art.usc.edu/loaner/loans/index.php";
-										alert(jsonResponse.message);
+										var htmlContent = "<div style='width:300px; font-size:20px; text-align:center;'>"+jsonResponse.message+"</div>"
+										$.fancybox({	
+												'centerOnScroll'	: true, 
+												'content'					: htmlContent,
+												'onClosed'				: function(){window.location = "http://art.usc.edu/loaner/loans/index.php";}
+										});
 								}
 								else{
 										showError(jsonResponse.message);
@@ -190,6 +211,7 @@ function submitLoan(){
 				
 		}
 }
+
 
 // support validation functions
 // find the correct destination objects for the global validation functions

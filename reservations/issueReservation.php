@@ -88,7 +88,7 @@
 				<fieldset style='margin-top:15px'>
 						<legend>Listed Equipment</legend>
 						<div class='pf-element'>
-								<div class="pf-description-float">Listed Equipment</div>
+								<div class="pf-description-float" id='listed-equipment-label'>Listed Equipment</div>
 								<div id="listed-equipment" class='pf-content-float'></div>
 								<div class='clear'></div>
 						</div>
