@@ -87,7 +87,7 @@ function suspend(setSuspend,userID){
 								}
 								else{
 										$.fancybox.close();
-										showError(jsonResponse.error);
+										showError(jsonResponse.message);
 								}
 						}
 				);

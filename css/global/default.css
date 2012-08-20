@@ -182,7 +182,7 @@ input:focus, textarea:focus {
 
 #department-header{
 		width:300px;
-		padding-bottom:20px;
+		margin-bottom:20px;
 }
 
 #current-visible{

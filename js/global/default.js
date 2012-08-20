@@ -29,7 +29,7 @@ $(document).ready(function(){
 				out: collapse
 		};
 		
-		$('#current-visible').hoverIntent(config);
+		$('#department-header').hoverIntent(config);
 });
 
 function expand(){
