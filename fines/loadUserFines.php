@@ -34,7 +34,11 @@
 						$result = mysql_query($query);
 						while($r = mysql_fetch_assoc($result)){
 								$totalFine = $totalFine + $r['fine'];
-								$days_late = ceil(($current_time - $r['due_date'])/(24*60*60));
+								if($r['return_date'] != 0)
+										$days_late = ceil(($r['return_date'] - $r['due_date'])/(24*60*60));
+								else if($r['return_date']==0)
+										$days_late = ceil(($current_time - $r['due_date'])/(24*60*60));
+										
 								$iskit = true;
 								if($r['equipmentid'] != "")
 										$iskit = false;
